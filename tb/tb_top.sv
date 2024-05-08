@@ -688,7 +688,7 @@ case (mst_id)
     2'b11:
     begin
         mst2_awaddr=awaddr;
-        mst2_awlen=$urandom_range(0,MST2_OSTDREQ_SIZEE-1);
+        mst2_awlen=$urandom_range(0,MST2_OSTDREQ_SIZE-1);
         mst2_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst2_awburst=`INCR;
         mst2_awvalid=1'b1;
