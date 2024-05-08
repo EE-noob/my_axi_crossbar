@@ -69,4 +69,4 @@ gitp4:
 	git add .;git commit -m "$(nm)";git push jcs master;
 
 gitpl:
-	git fetch origin;git merge  master jcs/master
+	git fetch jcs;git merge  master jcs/master
