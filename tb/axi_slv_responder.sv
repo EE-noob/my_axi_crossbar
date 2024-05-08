@@ -80,12 +80,22 @@ module axi_slv_responder #(
 //distributed ram
     logic  [2**AXI_ID_W-1:0]bresp_ram[2-1:0];
     logic  [2**AXI_ID_W-1:0]bid_ram[4-1:0];
+
+
+    logic  [SLV_OSTDREQ_NUM-1:0]arlen_ram[4-1:0];
+    logic  [SLV_OSTDREQ_NUM-1:0]arid_ram[4-1:0];
+
     //<<<
 
 
 //comb>>>
     assign bresp_now=bresp_ram[bresp_rd_ptr];
     assign bid_now=bid_ram[bid_rd_ptr];
+
+
+    assign arlen_now=arlen_ram[arlen_rd_ptr];
+    assign arid_now=arid_ram[arid_rd_ptr];
+
     //<<<
 //sequential>>>
 
@@ -129,7 +139,7 @@ end
 //ram
 always_ff @( posedge aclk or negedge aresetn) begin : __bresp_rd_ptr
     if(!aresetn)
-        bresp_rd_ptr <= 'b0;
+        bresp_rd_ptr <= 'b0; 
     else if(out_bvalid&&in_bready)
         bresp_rd_ptr <= bresp_rd_ptr+1;
     end
@@ -170,6 +180,9 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
         end
 
 //output:>>>
+assign out_rvalid= (req_remain_cnt!=0);
+assign out_rlast= (rdata_cnt==arlen_now);
+assign out_rid=arid_now;//!!!!fixme !!!!未考虑交织！！！！
 assign out_bvalid= (rsp_remain_cnt!=0);
 assign out_bid=bid_now;//!!!!fixme !!!!未考虑交织！！！！
 
