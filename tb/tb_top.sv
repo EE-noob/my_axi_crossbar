@@ -1,9 +1,9 @@
 `include "macro.vh"
 module tb_top();
 
-//localpara >>>
+//localparam >>>
 
-localpara clk_period=5 ;
+localparam clk_period=5 ;
 localparam testnum =4 ;
 //localpara half_clk_period=2.5 ;
 //<<<

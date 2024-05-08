@@ -181,7 +181,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __awid_ram
 assign out_wvalid= (req_remain_cnt!=0);
 assign out_wlast= (wdata_cnt==awlen_now);
 assign out_wid=awid_now;//!!!!fixme !!!!未考虑交织！！！！
-always_ff @( posedge aclk or negedge aresetn) begin : __wdata//!!!fix me!!!can't syn 考虑prbs
+always @( posedge aclk or negedge aresetn) begin : __wdata//!!!fix me!!!can't syn 考虑prbs
     if(!aresetn)
         out_wdata=#1 'b0;
     else if(out_wvalid && in_wready)
