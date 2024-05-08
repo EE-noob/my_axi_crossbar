@@ -32,8 +32,8 @@ module async_wr_addr_cac #(parameter ADDR_SIZE = 4 )
     output reg [ADDR_SIZE : 0] wr_addr_gray;
     output reg full;
 
-    reg [ADDR_SIZE - 1 : 0 ]  rd_addr_rsyn1;
-    reg [ADDR_SIZE - 1 : 0 ]  rd_addr_rsyn2;
+    reg [ADDR_SIZE : 0 ]  rd_addr_rsyn1;
+    reg [ADDR_SIZE : 0 ]  rd_addr_rsyn2;
 
     wire wr_vld;
     reg [ADDR_SIZE : 0] wr_addr_binary;
