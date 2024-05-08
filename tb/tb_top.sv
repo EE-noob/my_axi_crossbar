@@ -753,6 +753,42 @@ endcase
 end
 endtask
 
+task ar_req_clr(
+    input [1:0] mst_id
+);  
+
+begin
+case (mst_id)
+    2'b01: 
+    begin
+        mst0_araddr='b0;
+        mst0_arlen='b0;
+        mst0_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
+        mst0_arburst='b0;
+        mst0_arvalid='b0;
+    end 
+    2'b10:
+    begin
+        mst1_araddr='b0;
+        mst1_arlen='b0;
+        mst1_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
+        mst1_arburst='b0;
+        mst1_arvalid='b0;
+    end 
+    2'b11:
+    begin
+        mst2_araddr='b0;
+        mst2_arlen='b0;
+        mst2_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
+        mst2_arburst='b0;
+        mst2_arvalid='b0;
+    end 
+    default: $display("error!!! 主机掩码不能为零!");
+endcase
+  //$display("Data: %h", data); // 在下一个时钟上升沿时显示 data 的值
+end
+endtask
+
 task aw_INCR_req_random(
     input [1:0] mst_id,
     input [1:0] slv_id
@@ -773,6 +809,7 @@ end
     awaddr=$urandom_range(`SLV2_START_ADDR,`SLV2_END_ADDR); 
 default: $display("error!!! 未知从机代码");
 endcase
+
 case (mst_id)
     2'b01: 
     begin
@@ -806,7 +843,59 @@ endcase
 end
 endtask
 
+task ar_INCR_req_random(
+    input [1:0] mst_id,
+    input [1:0] slv_id
+);  
 
+begin
+    logic [AXI_ADDR_W    -1:0]araddr;
+case (slv_id)
+2'b01: 
+begin
+    araddr=$urandom_range(`SLV0_START_ADDR,`SLV0_END_ADDR); 
+end 
+2'b10: 
+begin
+    araddr=$urandom_range(`SLV1_START_ADDR,`SLV1_END_ADDR); 
+end 
+2'b11:
+    araddr=$urandom_range(`SLV2_START_ADDR,`SLV2_END_ADDR); 
+default: $display("error!!! 未知从机代码");
+endcase
+
+case (mst_id)
+    2'b01: 
+    begin
+        mst0_araddr=araddr;
+        mst0_arlen=$urandom_range(0,SLV0_OSTDREQ_SIZE-1);
+        mst0_arsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst0_arburst=`INCR;
+        mst0_arvalid=1'b1;
+        $display("write to addr 0x%h,len=0d%d", araddr,mst0_arlen);
+    end 
+    2'b10:
+    begin
+        mst1_araddr=araddr;
+        mst1_arlen=$urandom_range(0,SLV1_OSTDREQ_SIZE-1);
+        mst1_arsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst1_arburst=`INCR;
+        mst1_arvalid=1'b1;
+        $display("write to addr 0x%h,len=0d%d", araddr,mst1_arlen);
+    end 
+    2'b11:
+    begin
+        mst2_araddr=araddr;
+        mst2_arlen=$urandom_range(0,SLV2_OSTDREQ_SIZE-1);
+        mst2_arsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst2_arburst=`INCR;
+        mst2_arvalid=1'b1;
+        $display("write to addr 0x%h,len=0d%d", araddr,mst2_arlen);
+    end 
+    default: $display("error!!! 主机掩码不能为零!");
+endcase
+end
+endtask
 //<<<
 
 //dump、timeout、finish>>>
