@@ -25,10 +25,10 @@ module axi_mst_driver #(
     input  logic  srst,
     //interface from mst
     //aw channel
-    output  logic  out_awvalid,
+    input  logic  in_awvalid,
     input logic in_awready,
-    output  logic  [AXI_ADDR_W - 1 : 0] out_awaddr,
-    output  logic  [4          - 1 : 0] out_awlen,
+    // output  logic  [AXI_ADDR_W - 1 : 0] out_awaddr,
+    input  logic  [4          - 1 : 0] in_awlen,
     output  logic  [3          - 1 : 0] out_awsize,
     output  logic  [2          - 1 : 0] out_awburst,
     output  logic  [AXI_ID_W   - 1 : 0] out_awid,//高两位为主机掩码：1,2,3；低两位为读写id，0,1,2,3，支持outstanding的能力为4
@@ -95,9 +95,9 @@ module axi_mst_driver #(
 always_ff @( posedge aclk or negedge aresetn) begin : __req_remain_cnt
     if(!aresetn)
         req_remain_cnt<=0;
-    else if(out_awvalid && in_awready && out_wlast)
+    else if(in_awvalid && in_awready && out_wlast)
         req_remain_cnt<=req_remain_cnt;
-    else if(out_awvalid && in_awready)
+    else if(in_awvalid && in_awready)
         req_remain_cnt<=req_remain_cnt+1;
     else if(out_wlast)
         req_remain_cnt<=req_remain_cnt-1; 
@@ -141,7 +141,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __awlen_rd_ptr
 always_ff @( posedge aclk or negedge aresetn) begin : __awlen_wr_ptr
     if(!aresetn)
         awlen_wr_ptr <= 'b0;
-    else if(out_awvalid && in_awready)
+    else if(in_awvalid && in_awready)
         awlen_wr_ptr <= awlen_wr_ptr+1;
     end
 
@@ -150,8 +150,8 @@ always_ff @( posedge aclk or negedge aresetn) begin : __awlen_ram
     for (integer i = 0; i < MST_OSTDREQ_NUM; i = i + 1) begin
         awlen_ram[i] <= 'b0;
       end
-    else if(out_awvalid && in_awready)
-        awlen_ram[awlen_wr_ptr]<= out_awlen;
+    else if(in_awvalid && in_awready)
+        awlen_ram[awlen_wr_ptr]<= in_awlen;
     end
     
 always_ff @( posedge aclk or negedge aresetn) begin : __awid_rd_ptr
@@ -164,7 +164,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __awid_rd_ptr
 always_ff @( posedge aclk or negedge aresetn) begin : __awid_wr_ptr
     if(!aresetn)
         awid_wr_ptr <= 'b0;
-    else if(out_awvalid && in_awready)
+    else if(in_awvalid && in_awready)
         awid_wr_ptr <= awlen_wr_ptr+1;
     end
 
@@ -173,7 +173,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __awid_ram
     for (integer i = 0; i < MST_OSTDREQ_NUM; i = i + 1) begin
         awid_ram[i] <= 'b0;
         end
-    else if(out_awvalid && in_awready)
+    else if(in_awvalid && in_awready)
         awid_ram[awlen_wr_ptr]<= out_awid;
     end
 
