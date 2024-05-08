@@ -759,7 +759,8 @@ initial begin
     srst=0;
     @(negedge aclk);
     aresetn =0 ; //复位
-
+    @(negedge aclk);
+    aresetn =1 ; //置位
     @(negedge aclk);
     aw_req_clr(`MST0);
     @(negedge aclk);
