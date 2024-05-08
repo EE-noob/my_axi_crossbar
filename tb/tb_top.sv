@@ -766,6 +766,7 @@ initial begin
     repeat(testnum)begin
       aw_INCR_req_random(`MST0,`SLV0);
       wait(mst0_awvalid && mst0_awready);
+      @(negedge aclk);
     end
 
      aw_req_clr(`MST0);
