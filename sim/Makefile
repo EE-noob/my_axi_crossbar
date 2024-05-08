@@ -7,6 +7,7 @@ simv_name = simv
 vpdpluse_name = vcdpluse
 cov_file_name = coverage
 vdb_name = $(simv_name)
+my_incdir=../tb
 #************constant command************
 #compile
 NOR_VCS = vcs -full64 -sverilog +v2k -timescale=1ns/1ns            \
@@ -17,7 +18,8 @@ NOR_VCS = vcs -full64 -sverilog +v2k -timescale=1ns/1ns            \
       -o $(simv_name)   \
       -l compile.log	\
 	  -f $(rtl_list).f  \
-		-f $(sim_list).f
+		-f $(sim_list).f \
+		+incdir+$(my_incdir)
  
 #coverage compile switch 
 COV_SW = -cm line+cond+fsm+branch+tgl
