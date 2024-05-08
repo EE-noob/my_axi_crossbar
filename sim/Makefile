@@ -37,7 +37,7 @@ RUN_VER = -R +fsdb+autoflush -l run.log
 initsim:initfl run_vcs 
 versim:fl run_vcs vd
 fl:
-	find ../rtl -name "*v" > rtl_list.f;find ../tc -name "*v" > sim_list.f;
+	find ../rtl -name "*v" > rtl_list.f;find ../tb -name "*v" > sim_list.f;
 initfl:
 	find ./rtl ./bca -maxdepth 1 -type f -name "*v" > rtl_list.f;find ./tc -name "tb_linkinit.sv" > sim_list.f;
 run_vcs:
