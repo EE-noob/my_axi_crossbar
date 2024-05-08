@@ -62,8 +62,10 @@ module async_rd_addr_cac#( parameter ADDR_SIZE = 4)
     always@(posedge rd_clk or negedge rd_rstn) begin
         if(!rd_rstn) begin
             rd_addr_binary <= 'b0;
+            rd_addr_gray   <= 'b0;
         end else begin
             rd_addr_binary <= rd_addr_binary_next;
+            rd_addr_gray   <= rd_addr_gray_next;
         end
     end
 

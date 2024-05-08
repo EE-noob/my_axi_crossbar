@@ -206,8 +206,6 @@ module axi_crossbar_slv_switch#(
 
     assign arch_en = o_arvalid & o_arready;
 
-    //assign arch_en = o_arvalid & o_arready;
-
     assign o_arch = (arch_grant[0]) ? i_arch[0*ARCH_W+:ARCH_W] :
                     (arch_grant[1]) ? i_arch[1*ARCH_W+:ARCH_W] :
                     (arch_grant[2]) ? i_arch[2*ARCH_W+:ARCH_W] :
