@@ -16,3 +16,11 @@
 `define SLV2_END_ADDR 12287
 `define SLV3_START_ADDR 12288
 `define SLV3_END_ADDR 16383
+
+`define SLV0 2'b01
+`define SLV1 2'b10
+`define SLV2 2'b11
+
+`define MST0 2'b01
+`define MST1 2'b10
+`define MST2 2'b11

@@ -1,6 +1,12 @@
 `include "macro.vh"
 module tb_top();
 
+//localpara >>>
+
+localpara clk_period=5 ;
+localparam testnum =4 ;
+//localpara half_clk_period=2.5 ;
+//<<<
 // Parameters>>>
 
 parameter AXI_ID_W   = 4;
@@ -65,6 +71,9 @@ parameter RCH_W  = 41;
 parameter CAM_ADDR_WIDTH = 4  ;
 
 //para<<<
+//vari>>>
+integer  err_count;
+//<<<
 //Ports>>>
 logic  aclk;
 logic  aresetn;
@@ -537,14 +546,104 @@ axi_crossbar_top_inst (
   .slv2_rlast(slv2_rlast)
 );
 //<<<
-//always #5  clk = ! clk ;
 
+//mst>>>
+axi_mst_driver # (
+    .AXI_ADDR_W(AXI_ADDR_W),
+    .AXI_ID_W(AXI_ID_W),
+    .AXI_DATA_W(AXI_DATA_W),
+    .MST_OSTDREQ_NUM(MST0_OSTDREQ_NUM),
+    .MST_OSTDREQ_SIZE(MST0_OSTDREQ_SIZE),
+    .AWCH_W(AWCH_W),
+    .WCH_W(WCH_W),
+    .BCH_W(BCH_W),
+    .ARCH_W(ARCH_W),
+    .RCH_W(RCH_W)
+  )
+  axi_mst0_driver_inst (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .srst(srst),
+    .out_awvalid(mst0_awvalid),
+    .in_awready(mst0_awready),
+    .out_awaddr(mst0_awaddr),
+    .out_awlen(mst0_awlen),
+    .out_awsize(mst0_awsize),
+    .out_awburst(mst0_awburst),
+    .out_awid(mst0_awid),
+    .out_awlock(mst0_awlock),
+    .out_wvalid(mst0_wvalid),
+    .in_wready(mst0_wready),
+    .out_wlast(mst0_wlast),
+    .out_wid(mst0_wid),
+    .out_wdata(mst0_wdata),
+    .out_wstrb(mst0_wstrb),
+    .out_bready(mst0_bready)
+  );
+//<<<
+
+//slv>>>
+  axi_slv_responder # (
+    .AXI_ADDR_W(AXI_ADDR_W),
+    .AXI_ID_W(AXI_ID_W),
+    .AXI_DATA_W(AXI_DATA_W),
+    .SLV_OSTDREQ_NUM(SLV0_OSTDREQ_NUM),
+    .SLV_OSTDREQ_SIZE(SLV0_OSTDREQ_SIZE),
+    .AWCH_W(AWCH_W),
+    .WCH_W(WCH_W),
+    .BCH_W(BCH_W),
+    .ARCH_W(ARCH_W),
+    .RCH_W(RCH_W)
+  )
+  axi_slv0_responder_inst (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .srst(srst),
+    .out_awready(slv0_awready),
+    .out_wready(slv0_wready),
+    .in_wlast(slv0_wlast),
+    .out_bvalid(slv0_bvalid),
+    .in_bready(slv0_bready),
+    .out_bid(slv0_bid),
+    .out_bresp(slv0_bresp)
+  );
+//<<<
 
 //task>>>
-task aw_req_rst(
-    input [1:0] mst_id,
-    input [1:0] slv_id
-); 
+task aw_req_clr(
+    input [1:0] mst_id
+);  
+
+begin
+case (mst_id)
+    2'b01: 
+    begin
+        mst0_awaddr='b0;
+        mst0_awlen='b0;
+        mst0_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
+        mst0_awburst='b0;
+        mst0_awvalid='b0;
+    end 
+    2'b10:
+    begin
+        mst1_awaddr='b0;
+        mst1_awlen='b0;
+        mst1_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
+        mst1_awburst='b0;
+        mst1_awvalid='b0;
+    end 
+    2'b11:
+    begin
+        mst2_awaddr='b0;
+        mst2_awlen='b0;
+        mst2_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
+        mst2_awburst='b0;
+        mst2_awvalid='b0;
+    end 
+    default: $display("error!!! 主机掩码不能为零!");
+endcase
+  //$display("Data: %h", data); // 在下一个时钟上升沿时显示 data 的值
+end
 endtask
 
 task aw_INCR_req_random(
@@ -555,15 +654,15 @@ task aw_INCR_req_random(
 begin
     logic [AXI_ADDR_W    -1:0]awaddr;
 case (slv_id)
-2'b00: 
+2'b01: 
 begin
     awaddr=$urandom_range(`SLV0_START_ADDR,`SLV0_END_ADDR); 
 end 
-2'b01: 
+2'b10: 
 begin
     awaddr=$urandom_range(`SLV1_START_ADDR,`SLV1_END_ADDR); 
 end 
-2'b10:
+2'b11:
     awaddr=$urandom_range(`SLV2_START_ADDR,`SLV2_END_ADDR); 
 default: $display("error!!! 未知从机代码");
 endcase
@@ -575,6 +674,7 @@ case (mst_id)
         mst0_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen);
     end 
     2'b10:
     begin
@@ -583,6 +683,7 @@ case (mst_id)
         mst1_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst1_awburst=`INCR;
         mst1_awvalid=1'b1;
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen);
     end 
     2'b11:
     begin
@@ -591,12 +692,101 @@ case (mst_id)
         mst2_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst2_awburst=`INCR;
         mst2_awvalid=1'b1;
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen);
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
-  //$display("Data: %h", data); // 在下一个时钟上升沿时显示 data 的值
 end
 endtask
 
+
+//<<<
+
+//dump、timeout、finish>>>
+//fsdb
+initial
+begin
+//if($test$plusargs("DUMP_FSDB"))
+begin
+$fsdbDumpfile("testname.fsdb");  //记录波形，波形名字testname.fsdb
+$fsdbDumpvars("+all");  //+all参数，dump SV中的struct结构体
+$fsdbDumpSVA();   //将assertion的结果存在fsdb中
+$fsdbDumpMDA();  //dump memory arrays
+//0: 当前级及其下面所有层级，如top.A, top.A.a，所有在top下面的多维数组均会被dump
+//1: 仅仅dump当前组，也就是说，只dump top这一层的多维数组。
+end
+end
+
+initial begin
+    #(1e6*clk_period);
+    $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
+    $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
+    $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
+    $finish;
+  end
+
+  task Finish ();
+  begin
+      $display("%0t: %m: finishing simulation..", $time);
+      //repeat (100) @(posedge top.i_osc_clk);
+      $display("\n////////////////////////////////////////////////////////////////////////////");
+      $display("%0t: Simulation ended, ERROR count: %0d", $time, err_count);
+      $display("////////////////////////////////////////////////////////////////////////////\n");
+          if (err_count == 0) begin
+              $display("*********************************\n");
+              $display("TEST PASSED!!!!!!!!!!!\n");
+              $display("*********************************\n");
+          end
+          else
+            begin
+              $display("+++++++++++++++++++++++++++++++++\n");
+              $display("Error!!!!!!!!!!!\n");
+              $display("+++++++++++++++++++++++++++++++++\n");
+          end
+      $finish;
+  end
+  endtask
+
+//<<<
+
+
+  //always>>>
+always #(clk_period/2)  aclk = ~ aclk ;
+
+//tc: or_wr>>>
+
+//send req
+initial begin
+    aclk=0;
+    aresetn=1;
+    srst=0;
+    @(negedge aclk);
+    aresetn =0 ; //复位
+
+    @(negedge aclk);
+    aw_req_clr(`MST0);
+    @(negedge aclk);
+    repeat(testnum)begin
+      aw_INCR_req_random(`MST0,`SLV0);
+      wait(mst0_awvalid && mst0_awready);
+    end
+
+     aw_req_clr(`MST0);
+     
+end
+
+//rcv rsp
+
+always_ff @( posedge aclk or negedge aresetn ) begin : __err_count
+  if(!aresetn)
+    err_count<=testnum;
+  else if(mst0_bready && mst0_bvalid)
+    err_count<=err_count -1;
+  end
+
+initial begin
+  if(err_count==0)
+    Finish();
+end
 //<<<
 endmodule

@@ -68,7 +68,7 @@ dir:
 	cd ../;mkdir rtl;mkdir sg;mkdir dc;mkdir tc;cd sim;
 
 gitp4:
-	git add .;git commit -m "$(nm)";git push jcs master;
+	git add ../;git commit -m "$(nm)";git push jcs master;
 
 gitpl:
 	git fetch jcs;git merge  master jcs/master
