@@ -34,28 +34,36 @@ module axi_slv_responder #(
     input logic in_bready,
     output  logic  [AXI_ID_W    - 1 : 0] out_bid,
     output  logic  [2           - 1 : 0] out_bresp
-    // ,
+    ,
+
+
     // //AR Channel
-    // input logic o_arvalid,
-    // output  logic  o_arready,
+    input logic in_arvalid,
+    input  logic  in_arready,
     // input logic [AXI_ADDR_W  - 1 : 0] o_araddr,
     // input logic [4           - 1 : 0] o_arlen,
     // input logic [3           - 1 : 0] o_arsize,
     // input logic [2           - 1 : 0] o_arburst,
     // input logic [AXI_ID_W    - 1 : 0] o_arid,
     // input logic [2           - 1 : 0] o_arlock,
-    // //R Channel
-    // output  logic  o_rvalid,
-    // input logic o_rready,
+    //R Channel
+    output  logic  out_rvalid,
+    input logic in_rready,
 
-    // output  logic  [AXI_ID_W    - 1 : 0] o_rid,
+    output  logic  [AXI_ID_W    - 1 : 0] out_rid,
     // output  logic  [2           - 1 : 0] o_rresp,
-    // output  logic  [AXI_DATA_W  - 1 : 0] o_rdata,
-    // output  logic  o_rlast
+    output  logic  [AXI_DATA_W  - 1 : 0] out_rdata,
+    output  logic  out_rlast  
     );
 //vari def>>>
 //counter 
-    // logic [2**4-1:0]                    wdata_cnt;//fixme!!!!!!
+    logic [2**4-1:0]                    rdata_cnt;
+    logic [$clog2(SLV_OSTDREQ_NUM)+1-1:0]req_remain_cnt;
+    logic [$clog2(SLV_OSTDREQ_NUM)-1:0] arlen_rd_ptr;
+    logic [$clog2(SLV_OSTDREQ_NUM)-1:0] arlen_wr_ptr;
+    logic [$clog2(SLV_OSTDREQ_NUM)-1:0] arid_rd_ptr;
+    logic [$clog2(SLV_OSTDREQ_NUM)-1:0] arid_wr_ptr;
+
     logic [AXI_ID_W-1:0] rsp_remain_cnt;
     logic [AXI_ID_W-1:0] bresp_rd_ptr;
     logic [AXI_ID_W-1:0] bresp_wr_ptr;
@@ -82,7 +90,7 @@ module axi_slv_responder #(
 //sequential>>>
 
 //counter>>>
-    always_ff @( posedge aclk or negedge aresetn) begin : __req_remain_cnt
+    always_ff @( posedge aclk or negedge aresetn) begin : __rsp_remain_cnt
         if(!aresetn)
             rsp_remain_cnt<=0;
         else if(in_wlast && out_bvalid && in_bready)
@@ -93,6 +101,28 @@ module axi_slv_responder #(
             rsp_remain_cnt<=rsp_remain_cnt+1; 
         
     end
+
+always_ff @( posedge aclk or negedge aresetn) begin : __req_remain_cnt
+    if(!aresetn)
+        req_remain_cnt<=0;
+    else if(in_arvalid && in_arready && out_rlast)
+        req_remain_cnt<=req_remain_cnt;
+    else if(in_arvalid && in_arready)
+        req_remain_cnt<=req_remain_cnt+1;
+    else if(out_rlast)
+        req_remain_cnt<=req_remain_cnt-1; 
+    
+end
+
+always_ff @( posedge aclk or negedge aresetn) begin : __rdata_cnt
+    if(!aresetn)
+        rdata_cnt<=0;
+    else if(out_rlast)
+        rdata_cnt<=0;
+    else if(out_rvalid && in_rready)
+        rdata_cnt<=rdata_cnt+1;
+    
+end
 
 //<<<
   

@@ -956,15 +956,17 @@ initial begin
     aclk=0;
     aresetn=1;
     srst=0;
+    aw_req_clr(`MST0);
+    aw_req_clr(`MST1);
+    aw_req_clr(`MST2);
+    //@(negedge aclk);
+
     @(negedge aclk);
     aresetn =0 ; //复位
     @(negedge aclk);
     aresetn =1 ; //置位
     @(negedge aclk);
-    aw_req_clr(`MST0);
-    aw_req_clr(`MST1);
-    aw_req_clr(`MST2);
-    @(negedge aclk);
+
     repeat(testnum)begin
       aw_INCR_req_random(`MST0,`SLV0);
       wait(mst0_awvalid && mst0_awready);
