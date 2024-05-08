@@ -29,9 +29,7 @@ module axi_mst_driver #(
     input logic in_awready,
     // output  logic  [AXI_ADDR_W - 1 : 0] out_awaddr,
     input  logic  [4          - 1 : 0] in_awlen,
-    output  logic  [3          - 1 : 0] out_awsize,
-    output  logic  [2          - 1 : 0] out_awburst,
-    output  logic  [AXI_ID_W   - 1 : 0] out_awid,//高两位为主机掩码：1,2,3；低两位为读写id，0,1,2,3，支持outstanding的能力为4
+    input  logic  [AXI_ID_W   - 1 : 0] in_awid,//高两位为主机掩码：1,2,3；低两位为读写id，0,1,2,3，支持outstanding的能力为4
     output  logic  [2          - 1 : 0] out_awlock,
     //w channel
     output  logic  out_wvalid,
@@ -174,7 +172,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __awid_ram
         awid_ram[i] <= 'b0;
         end
     else if(in_awvalid && in_awready)
-        awid_ram[awlen_wr_ptr]<= out_awid;
+        awid_ram[awlen_wr_ptr]<= in_awid;
     end
 
 //output:>>>
