@@ -577,6 +577,66 @@ axi_mst_driver # (
     .out_wstrb(mst0_wstrb),
     .out_bready(mst0_bready)
   );
+
+  axi_mst_driver # (
+    .AXI_ADDR_W(AXI_ADDR_W),
+    .AXI_ID_W(AXI_ID_W),
+    .AXI_DATA_W(AXI_DATA_W),
+    .MST_OSTDREQ_NUM(MST0_OSTDREQ_NUM),
+    .MST_OSTDREQ_SIZE(MST0_OSTDREQ_SIZE),
+    .AWCH_W(AWCH_W),
+    .WCH_W(WCH_W),
+    .BCH_W(BCH_W),
+    .ARCH_W(ARCH_W),
+    .RCH_W(RCH_W)
+  )
+  axi_mst1_driver_inst (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .srst(srst),
+    .in_awvalid(mst1_awvalid),
+    .in_awready(mst1_awready),
+    .in_awlen(mst1_awlen),
+    .in_awid(mst1_awid),
+    .out_awlock(mst1_awlock),
+    .out_wvalid(mst1_wvalid),
+    .in_wready(mst1_wready),
+    .out_wlast(mst1_wlast),
+    .out_wid(mst1_wid),
+    .out_wdata(mst1_wdata),
+    .out_wstrb(mst1_wstrb),
+    .out_bready(mst1_bready)
+  );
+
+  axi_mst_driver # (
+    .AXI_ADDR_W(AXI_ADDR_W),
+    .AXI_ID_W(AXI_ID_W),
+    .AXI_DATA_W(AXI_DATA_W),
+    .MST_OSTDREQ_NUM(MST0_OSTDREQ_NUM),
+    .MST_OSTDREQ_SIZE(MST0_OSTDREQ_SIZE),
+    .AWCH_W(AWCH_W),
+    .WCH_W(WCH_W),
+    .BCH_W(BCH_W),
+    .ARCH_W(ARCH_W),
+    .RCH_W(RCH_W)
+  )
+  axi_mst2_driver_inst (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .srst(srst),
+    .in_awvalid(mst2_awvalid),
+    .in_awready(mst2_awready),
+    .in_awlen(mst2_awlen),
+    .in_awid(mst2_awid),
+    .out_awlock(mst2_awlock),
+    .out_wvalid(mst2_wvalid),
+    .in_wready(mst2_wready),
+    .out_wlast(mst2_wlast),
+    .out_wid(mst2_wid),
+    .out_wdata(mst2_wdata),
+    .out_wstrb(mst2_wstrb),
+    .out_bready(mst2_bready)
+  );
 //<<<
 
 //slv>>>
@@ -603,6 +663,56 @@ axi_mst_driver # (
     .in_bready(slv0_bready),
     .out_bid(slv0_bid),
     .out_bresp(slv0_bresp)
+  );
+
+  axi_slv_responder # (
+    .AXI_ADDR_W(AXI_ADDR_W),
+    .AXI_ID_W(AXI_ID_W),
+    .AXI_DATA_W(AXI_DATA_W),
+    .SLV_OSTDREQ_NUM(SLV0_OSTDREQ_NUM),
+    .SLV_OSTDREQ_SIZE(SLV0_OSTDREQ_SIZE),
+    .AWCH_W(AWCH_W),
+    .WCH_W(WCH_W),
+    .BCH_W(BCH_W),
+    .ARCH_W(ARCH_W),
+    .RCH_W(RCH_W)
+  )
+  axi_slv1_responder_inst (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .srst(srst),
+    .out_awready(slv1_awready),
+    .out_wready(slv1_wready),
+    .in_wlast(slv1_wlast),
+    .out_bvalid(slv1_bvalid),
+    .in_bready(slv1_bready),
+    .out_bid(slv1_bid),
+    .out_bresp(slv1_bresp)
+  );
+
+  axi_slv_responder # (
+    .AXI_ADDR_W(AXI_ADDR_W),
+    .AXI_ID_W(AXI_ID_W),
+    .AXI_DATA_W(AXI_DATA_W),
+    .SLV_OSTDREQ_NUM(SLV2_OSTDREQ_NUM),
+    .SLV_OSTDREQ_SIZE(SLV2_OSTDREQ_SIZE),
+    .AWCH_W(AWCH_W),
+    .WCH_W(WCH_W),
+    .BCH_W(BCH_W),
+    .ARCH_W(ARCH_W),
+    .RCH_W(RCH_W)
+  )
+  axi_slv2_responder_inst (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .srst(srst),
+    .out_awready(slv2_awready),
+    .out_wready(slv2_wready),
+    .in_wlast(slv2_wlast),
+    .out_bvalid(slv2_bvalid),
+    .in_bready(slv2_bready),
+    .out_bid(slv2_bid),
+    .out_bresp(slv2_bresp)
   );
 //<<<
 
@@ -763,6 +873,8 @@ initial begin
     aresetn =1 ; //置位
     @(negedge aclk);
     aw_req_clr(`MST0);
+    aw_req_clr(`MST1);
+    aw_req_clr(`MST2);
     @(negedge aclk);
     repeat(testnum)begin
       aw_INCR_req_random(`MST0,`SLV0);
