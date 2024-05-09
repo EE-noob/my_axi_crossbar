@@ -924,8 +924,6 @@ end
 initial begin
     #(1e6*clk_period);
     $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
-    $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
-    $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
     $finish;
   end
 
@@ -945,6 +943,7 @@ initial begin
             begin
               $display("+++++++++++++++++++++++++++++++++\n");
               $display("Error!!!!!!!!!!!\n");
+              $display("0d% Errors !!!!!!\n",err_count);
               $display("+++++++++++++++++++++++++++++++++\n");
           end
       $finish;
