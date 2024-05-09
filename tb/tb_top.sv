@@ -672,6 +672,7 @@ axi_mst_driver # (
     .in_arlen(slv0_arlen),
     .in_arid(slv0_arid),
     .out_rvalid(slv0_rvalid),
+    .out_rresp(slv0_rresp),
     .in_rready(slv0_rready),
 
     .out_rid(slv0_rid),
@@ -708,6 +709,7 @@ axi_mst_driver # (
     .in_arlen(slv1_arlen),
     .in_arid(slv1_arid),
     .out_rvalid(slv1_rvalid),
+    .out_rresp(slv1_rresp),
     .in_rready(slv1_rready),
 
     .out_rid(slv1_rid),
@@ -744,6 +746,7 @@ axi_mst_driver # (
     .in_arlen(slv2_arlen),
     .in_arid(slv2_arid),
     .out_rvalid(slv2_rvalid),
+    .out_rresp(slv2_rresp),
     .in_rready(slv2_rready),
 
     .out_rid(slv2_rid),

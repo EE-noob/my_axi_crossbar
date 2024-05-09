@@ -40,7 +40,7 @@ module axi_mst_driver #(
     output  logic  [4          - 1 : 0] out_wstrb,
     //B channel
     // input logic in_bvalid,
-    output  logic  out_bready
+    output  logic  out_bready,
     // ,
     // input logic [AXI_ID_W   - 1 : 0] in_bid,
     // input logic [2          - 1 : 0] in_bresp,
@@ -55,7 +55,7 @@ module axi_mst_driver #(
     // output  logic  [2          - 1 : 0] out_arlock,
     // //R channel
     // input logic out_rvalid,
-    // output  logic  out_rready,
+    output  logic  out_rready
     // input logic [AXI_ID_W   - 1 : 0] out_rid,
     // input logic [2          - 1 : 0] out_rresp,
     // input logic [AXI_DATA_W - 1 : 0] out_rdata,
@@ -69,27 +69,35 @@ module axi_mst_driver #(
     logic [$clog2(MST_OSTDREQ_NUM)-1:0] awlen_wr_ptr;
     logic [$clog2(MST_OSTDREQ_NUM)-1:0] awid_rd_ptr;
     logic [$clog2(MST_OSTDREQ_NUM)-1:0] awid_wr_ptr;
+
+    
+
 //reg
     logic [4          - 1 : 0] awlen_now;
     logic [4          - 1 : 0] awid_now;
     logic   out_wlast_prev;
     logic   out_wvalid_prev;
+
 // //queue 
 //     queue [4-1:0]awlen_que[$];
 
 //distributed ram
+
     logic  [MST_OSTDREQ_NUM-1:0]awlen_ram[4-1:0];
     logic  [MST_OSTDREQ_NUM-1:0]awid_ram[4-1:0];
     //<<<
 
 
 //comb>>>
+
     assign awlen_now=awlen_ram[awlen_rd_ptr];
     assign awid_now=awid_ram[awid_rd_ptr];
     //<<<
 //sequential>>>
 
 //counter>>>
+
+
 always_ff @( posedge aclk or negedge aresetn) begin : __req_remain_cnt
     if(!aresetn)
         req_remain_cnt<=0;
@@ -129,6 +137,8 @@ always_ff @( posedge aclk or negedge aresetn) begin : __wlast_prev
     //<<<
   
 //ram
+
+    //len id    
 always_ff @( posedge aclk or negedge aresetn) begin : __awlen_rd_ptr
     if(!aresetn)
         awlen_rd_ptr <= 'b0;
@@ -174,6 +184,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __awid_ram
     else if(in_awvalid && in_awready)
         awid_ram[awlen_wr_ptr]<= in_awid;
     end
+ 
 
 //output:>>>
 assign out_wvalid= (req_remain_cnt!=0);
@@ -191,6 +202,13 @@ always_ff @( posedge aclk or negedge aresetn) begin : __out_bready
     else 
         out_bready<= $random;//!!!!fixme !!!!完全随机！！！！
     end
+
+    always_ff @( posedge aclk or negedge aresetn) begin : __out_rready
+        if(!aresetn)
+            out_rready <= 'b0;
+        else 
+            out_rready<= $random;//!!!!fixme !!!!完全随机！！！！
+        end
 //fix me!!! 未考虑窄带传输
 // always_ff @( negedge aclk or negedge aresetn) begin : __wstrb
 //     if(!aresetn)

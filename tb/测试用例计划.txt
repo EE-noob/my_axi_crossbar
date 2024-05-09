@@ -1,0 +1,5 @@
+outstanding
+窄带传输
+out of order
+interleaving
+三种brust

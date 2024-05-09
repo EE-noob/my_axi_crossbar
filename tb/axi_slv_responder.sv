@@ -51,7 +51,7 @@ module axi_slv_responder #(
     input logic in_rready,
 
     output  logic  [AXI_ID_W    - 1 : 0] out_rid,
-    // output  logic  [2           - 1 : 0] o_rresp,
+    output  logic  [2           - 1 : 0] out_rresp,
     output  logic  [AXI_DATA_W  - 1 : 0] out_rdata,
     output  logic  out_rlast  
     );
@@ -121,7 +121,6 @@ always_ff @( posedge aclk or negedge aresetn) begin : __req_remain_cnt
         req_remain_cnt<=req_remain_cnt+1;
     else if(out_rlast)
         req_remain_cnt<=req_remain_cnt-1; 
-    
 end
 
 always_ff @( posedge aclk or negedge aresetn) begin : __rdata_cnt
@@ -137,6 +136,8 @@ end
 //<<<
   
 //ram
+
+//rsp
 always_ff @( posedge aclk or negedge aresetn) begin : __bresp_rd_ptr
     if(!aresetn)
         bresp_rd_ptr <= 'b0; 
@@ -234,13 +235,19 @@ assign out_rid=arid_now;//!!!!fixme !!!!未考虑交织！！！！
 assign out_bvalid= (rsp_remain_cnt!=0);
 assign out_bid=bid_now;//!!!!fixme !!!!未考虑交织！！！！
 
-always @( posedge aclk or negedge aresetn) begin : __wdata//!!!fix me!!!can't syn 考虑prbs
+always @( posedge aclk or negedge aresetn) begin : __rdata//!!!fix me!!!can't syn 考虑prbs
     if(!aresetn)
         out_rdata=#1 'b0;
     else if(out_rvalid && in_rready)
         out_rdata=#1 $random;    
 end
 
+always @( posedge aclk or negedge aresetn) begin : __rresp//!!!fix me!!!can't syn 考虑prbs
+    if(!aresetn)
+        out_rresp=#1 2'b00;
+    else if(out_rvalid && in_rready)
+        out_rresp=#1 2'b00;    
+end
 always_ff @( posedge aclk or negedge aresetn) begin : __out_awready
     if(!aresetn)
         out_awready <= 'b0;
