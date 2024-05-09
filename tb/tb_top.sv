@@ -76,6 +76,8 @@ parameter CAM_ADDR_WIDTH = 4  ;
 integer  err_count;
 integer  wr_req_id;
 integer  rd_req_id;
+integer  wr_rsp_success_cnt;
+integer  rd_rsp_success_cnt;
 //<<<
 //Ports>>>
 logic  aclk;
@@ -1030,6 +1032,8 @@ initial begin
     aresetn =1 ; //置位
     @(negedge aclk);
     wr_req_id=0;
+    rd_req_id=0;
+
     repeat(testnum)begin
       aw_INCR_req_random(`MST0,`SLV0,wr_req_id);
       wait(mst0_awvalid && mst0_awready);
@@ -1039,6 +1043,14 @@ initial begin
 
      aw_req_clr(`MST0);
      
+     repeat(testnum)begin
+      ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+      wait(mst0_arvalid && mst0_arready);
+      @(negedge aclk);
+      rd_req_id+=1;
+    end
+
+     ar_req_clr(`MST0);
 end
 
 //rcv rsp
@@ -1050,6 +1062,25 @@ always_ff @( posedge aclk or negedge aresetn ) begin : __err_count
     err_count<=err_count -1;
   end
 
+  // always_ff @( posedge aclk or negedge aresetn ) begin : __wr_rsp_success_cnt
+  //   if(!aresetn)
+  //     wr_rsp_success_cnt<=testnum;
+  //   else if(mst0_bready && mst0_bvalid)
+  //     begin
+  //       $display("number %d wr_rsp recived successfully!!!",testnum-wr_rsp_success_cnt);
+  //       wr_rsp_success_cnt<=wr_rsp_success_cnt -1;
+  //     end
+  //   end
+
+    // always_ff @( posedge aclk or negedge aresetn ) begin : __rd_rsp_success_cnt
+    //   if(!aresetn)
+    //     rd_rsp_success_cnt<=testnum;
+    //   else if(mst0_bready && mst0_bvalid)
+    //     begin
+    //       $display("number %d wr_rsp recived successfully!!!",testnum-wr_rsp_success_cnt)
+    //       wr_rsp_success_cnt<=err_count -1;
+    //     end
+    //   end
 initial begin
   if(err_count==0)
     Finish();
