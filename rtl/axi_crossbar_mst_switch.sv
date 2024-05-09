@@ -331,9 +331,9 @@ module axi_crossbar_mst_switch#(
     assign cam_write_delete = i_wvalid & i_wready & i_wlast;
 
     cam_bram
-    #(.CAM_DATA_WIDTH(AXI_ID_W), 
+    #(.DATA_WIDTH(AXI_ID_W), 
       .CAM_TARGET_WIDTH(SLV_NB),
-      .CAM_ADDR_WIDTH(CAM_ADDR_WIDTH))
+      .ADDR_WIDTH(CAM_ADDR_WIDTH))
     mst_switch_wch_cam
     (.clk(aclk), 
      .rstn(aresetn),
@@ -408,7 +408,6 @@ module axi_crossbar_mst_switch#(
                    (bch_grant[0])  ? o_bch[0*BCH_W+:BCH_W] :
                    (bch_grant[1])  ? o_bch[1*BCH_W+:BCH_W] :
                    (bch_grant[2])  ? o_bch[2*BCH_W+:BCH_W] :
-                   (bch_grant[3])  ? o_bch[3*BCH_W+:BCH_W] :
                                      {BCH_W{1'b0}};
 
     //////////////////////////////////////

@@ -59,9 +59,9 @@ module sync_fifo#(parameter ADDR_WIDTH = 4,
                     .aresetn(aresetn),
                     .srst(srst),
                     .wr_en(wr_en),
-                    .addr_in(wr_ptr),
+                    .addr_in(wr_ptr[ADDR_WIDTH - 1: 0]),
                     .data_in(data_in),
-                    .addr_out(rd_ptr),
+                    .addr_out(rd_ptr[ADDR_WIDTH - 1: 0]),
                     .data_out(data_fifo));
     
     assign empty = empty_next;

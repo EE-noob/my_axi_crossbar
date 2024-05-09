@@ -473,8 +473,8 @@ module cam_bram#(parameter DATA_WIDTH = 4,
         end
     end
 
-    ram_dp#(.DATA_WIDTH('b1),
-            .ADDR_WIDTH(ADDR_WIDTH))
+    ram_dp#(.CAM_DATA_WIDTH('b1),
+            .CAM_ADDR_WIDTH(ADDR_WIDTH))
     ram_lut(.clk(clk),
             .rstn(rstn),
             .a_we(wr_del),
@@ -487,8 +487,8 @@ module cam_bram#(parameter DATA_WIDTH = 4,
             .b_dout(ram_dout));
 
     //存放每个ID对应的slv_w_target
-    ram_dp#(.DATA_WIDTH(CAM_TARGET_WIDTH),
-            .ADDR_WIDTH(ADDR_WIDTH))
+    ram_dp#(.CAM_DATA_WIDTH(CAM_TARGET_WIDTH),
+            .CAM_ADDR_WIDTH(ADDR_WIDTH))
     target_store(.clk(clk),
             .rstn(rstn),
             .a_we(wr_del),
