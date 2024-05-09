@@ -569,7 +569,7 @@ axi_mst_driver # (
     .in_awready(mst0_awready),
     .in_awlen(mst0_awlen),
     .in_awid(mst0_awid),
-    .out_awlock(mst0_awlock),
+    .
     .out_wvalid(mst0_wvalid),
     .in_wready(mst0_wready),
     .out_wlast(mst0_wlast),
@@ -599,7 +599,7 @@ axi_mst_driver # (
     .in_awready(mst1_awready),
     .in_awlen(mst1_awlen),
     .in_awid(mst1_awid),
-    .out_awlock(mst1_awlock),
+  
     .out_wvalid(mst1_wvalid),
     .in_wready(mst1_wready),
     .out_wlast(mst1_wlast),
@@ -629,7 +629,7 @@ axi_mst_driver # (
     .in_awready(mst2_awready),
     .in_awlen(mst2_awlen),
     .in_awid(mst2_awid),
-    .out_awlock(mst2_awlock),
+
     .out_wvalid(mst2_wvalid),
     .in_wready(mst2_wready),
     .out_wlast(mst2_wlast),

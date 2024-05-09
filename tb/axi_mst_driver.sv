@@ -30,7 +30,7 @@ module axi_mst_driver #(
     // output  logic  [AXI_ADDR_W - 1 : 0] out_awaddr,
     input  logic  [4          - 1 : 0] in_awlen,
     input  logic  [AXI_ID_W   - 1 : 0] in_awid,//高两位为主机掩码：1,2,3；低两位为读写id，0,1,2,3，支持outstanding的能力为4
-    output  logic  [2          - 1 : 0] out_awlock,
+    // output  logic  [2          - 1 : 0] out_awlock,
     //w channel
     output  logic  out_wvalid,
     input   logic  in_wready,
