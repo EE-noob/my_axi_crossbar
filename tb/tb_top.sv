@@ -74,6 +74,8 @@ parameter CAM_ADDR_WIDTH = 4  ;
 //para<<<
 //vari>>>
 integer  err_count;
+integer  wr_req_id;
+integer  rd_req_id;
 //<<<
 //Ports>>>
 logic  aclk;
@@ -663,7 +665,18 @@ axi_mst_driver # (
     .out_bvalid(slv0_bvalid),
     .in_bready(slv0_bready),
     .out_bid(slv0_bid),
-    .out_bresp(slv0_bresp)
+    .out_bresp(slv0_bresp),
+
+    .in_arvalid(slv0_arvalid),
+    .in_arready(slv0_arready),
+    .in_arlen(slv0_arlen),
+    .in_arid(slv0_arid),
+    .out_rvalid(slv0_rvalid),
+    .in_rready(slv0_rready),
+
+    .out_rid(slv0_rid),
+    .out_rdata(slv0_rdata),
+    .out_rlast(slv0_rlast)  
   );
 
   axi_slv_responder # (
@@ -688,7 +701,18 @@ axi_mst_driver # (
     .out_bvalid(slv1_bvalid),
     .in_bready(slv1_bready),
     .out_bid(slv1_bid),
-    .out_bresp(slv1_bresp)
+    .out_bresp(slv1_bresp),
+
+    .in_arvalid(slv1_arvalid),
+    .in_arready(slv1_arready),
+    .in_arlen(slv1_arlen),
+    .in_arid(slv1_arid),
+    .out_rvalid(slv1_rvalid),
+    .in_rready(slv1_rready),
+
+    .out_rid(slv1_rid),
+    .out_rdata(slv1_rdata),
+    .out_rlast(slv1_rlast)  
   );
 
   axi_slv_responder # (
@@ -713,7 +737,18 @@ axi_mst_driver # (
     .out_bvalid(slv2_bvalid),
     .in_bready(slv2_bready),
     .out_bid(slv2_bid),
-    .out_bresp(slv2_bresp)
+    .out_bresp(slv2_bresp),
+
+    .in_arvalid(slv2_arvalid),
+    .in_arready(slv2_arready),
+    .in_arlen(slv2_arlen),
+    .in_arid(slv2_arid),
+    .out_rvalid(slv2_rvalid),
+    .in_rready(slv2_rready),
+
+    .out_rid(slv2_rid),
+    .out_rdata(slv2_rdata),
+    .out_rlast(slv2_rlast)  
   );
 //<<<
 
@@ -732,6 +767,7 @@ case (mst_id)
         mst0_awburst='b0;
         mst0_awvalid='b0;
         mst0_awlock=2'b10;//默认赋值
+        mst0_awid='b0;
     end 
     2'b10:
     begin
@@ -741,6 +777,7 @@ case (mst_id)
         mst1_awburst='b0;
         mst1_awvalid='b0;
         mst1_awlock=2'b10;//默认赋值
+        mst1_awid='b0;
     end 
     2'b11:
     begin
@@ -750,6 +787,7 @@ case (mst_id)
         mst2_awburst='b0;
         mst2_awvalid='b0;
         mst2_awlock=2'b10;//默认赋值
+        mst2_awid='b0;
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -771,7 +809,7 @@ case (mst_id)
         mst0_arburst='b0;
         mst0_arvalid='b0;
         mst0_arlock=2'b10;//默认赋值
-
+        mst0_arid='b0;
     end 
     2'b10:
     begin
@@ -781,6 +819,7 @@ case (mst_id)
         mst1_arburst='b0;
         mst1_arvalid='b0;
         mst1_arlock=2'b10;//默认赋值
+        mst1_arid='b0;
     end 
     2'b11:
     begin
@@ -790,6 +829,7 @@ case (mst_id)
         mst2_arburst='b0;
         mst2_arvalid='b0;
         mst2_arlock=2'b10;//默认赋值
+        mst2_arid='b0;
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -799,7 +839,8 @@ endtask
 
 task aw_INCR_req_random(
     input [1:0] mst_id,
-    input [1:0] slv_id
+    input [1:0] slv_id,
+    input [1:0] req_id
 );  
 
 begin
@@ -826,6 +867,7 @@ case (mst_id)
         mst0_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
+        mst0_awid={mst_id,req_id};
         $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen);
     end 
     2'b10:
@@ -835,6 +877,7 @@ case (mst_id)
         mst1_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst1_awburst=`INCR;
         mst1_awvalid=1'b1;
+        mst1_awid={mst_id,req_id};
         $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen);
     end 
     2'b11:
@@ -844,6 +887,7 @@ case (mst_id)
         mst2_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst2_awburst=`INCR;
         mst2_awvalid=1'b1;
+        mst2_awid={mst_id,req_id};
         $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen);
     end 
     default: $display("error!!! 主机掩码不能为零!");
@@ -853,7 +897,9 @@ endtask
 
 task ar_INCR_req_random(
     input [1:0] mst_id,
-    input [1:0] slv_id
+    input [1:0] slv_id,
+    input [1:0] req_id
+
 );  
 
 begin
@@ -880,6 +926,7 @@ case (mst_id)
         mst0_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst0_arburst=`INCR;
         mst0_arvalid=1'b1;
+        mst0_arid={mst_id,req_id};
         $display("write to addr 0x%h,len=0d%d", araddr,mst0_arlen);
     end 
     2'b10:
@@ -889,6 +936,7 @@ case (mst_id)
         mst1_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst1_arburst=`INCR;
         mst1_arvalid=1'b1;
+        mst1_arid={mst_id,req_id};
         $display("write to addr 0x%h,len=0d%d", araddr,mst1_arlen);
     end 
     2'b11:
@@ -898,6 +946,7 @@ case (mst_id)
         mst2_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst2_arburst=`INCR;
         mst2_arvalid=1'b1;
+        mst2_arid={mst_id,req_id};
         $display("write to addr 0x%h,len=0d%d", araddr,mst2_arlen);
     end 
     default: $display("error!!! 主机掩码不能为零!");
@@ -977,11 +1026,12 @@ initial begin
     @(negedge aclk);
     aresetn =1 ; //置位
     @(negedge aclk);
-
+    wr_req_id=0;
     repeat(testnum)begin
-      aw_INCR_req_random(`MST0,`SLV0);
+      aw_INCR_req_random(`MST0,`SLV0,wr_req_id);
       wait(mst0_awvalid && mst0_awready);
       @(negedge aclk);
+      wr_req_id+=1;
     end
 
      aw_req_clr(`MST0);
