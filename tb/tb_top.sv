@@ -873,7 +873,7 @@ case (mst_id)
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
         mst0_awid={mst_id,req_id};
-        $display("read from addr 0x%h,len=0d%d", awaddr,mst0_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen);
     end 
     2'b10:
     begin
@@ -883,7 +883,7 @@ case (mst_id)
         mst1_awburst=`INCR;
         mst1_awvalid=1'b1;
         mst1_awid={mst_id,req_id};
-        $display("read from addr 0x%h,len=0d%d", awaddr,mst1_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen);
     end 
     2'b11:
     begin
@@ -893,7 +893,7 @@ case (mst_id)
         mst2_awburst=`INCR;
         mst2_awvalid=1'b1;
         mst2_awid={mst_id,req_id};
-        $display("read from addr 0x%h,len=0d%d", awaddr,mst2_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen);
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -932,7 +932,7 @@ case (mst_id)
         mst0_arburst=`INCR;
         mst0_arvalid=1'b1;
         mst0_arid={mst_id,req_id};
-        $display("write to addr 0x%h,len=0d%d", araddr,mst0_arlen);
+        $display("read from addr 0x%h,len=0d%d", araddr,mst0_arlen);
     end 
     2'b10:
     begin
@@ -942,7 +942,7 @@ case (mst_id)
         mst1_arburst=`INCR;
         mst1_arvalid=1'b1;
         mst1_arid={mst_id,req_id};
-        $display("write to addr 0x%h,len=0d%d", araddr,mst1_arlen);
+        $display("read from addr 0x%h,len=0d%d", araddr,mst1_arlen);
     end 
     2'b11:
     begin
@@ -952,7 +952,7 @@ case (mst_id)
         mst2_arburst=`INCR;
         mst2_arvalid=1'b1;
         mst2_arid={mst_id,req_id};
-        $display("write to addr 0x%h,len=0d%d", araddr,mst2_arlen);
+        $display("read from addr 0x%h,len=0d%d", araddr,mst2_arlen);
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
