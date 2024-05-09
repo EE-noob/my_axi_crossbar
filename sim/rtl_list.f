@@ -1,0 +1,17 @@
+../rtl/async_fifo.v
+../rtl/async_rd_addr_cac.v
+../rtl/async_wr_addr_cac.v
+../rtl/axi_crossbar_mst_if.sv
+../rtl/axi_crossbar_mst_switch.sv
+../rtl/axi_crossbar_pipeline.sv
+../rtl/axi_crossbar_slv_if.sv
+../rtl/axi_crossbar_slv_switch.sv
+../rtl/axi_crossbar_switch_top.sv
+../rtl/axi_crossbar_top.sv
+../rtl/cam_bram.v
+../rtl/dual_ram.v
+../rtl/ram_dp.v
+../rtl/round_arbiter.sv
+../rtl/round_arbiter_core.sv
+../rtl/sync_fifo.sv
+../rtl/sync_fifo_ram.sv

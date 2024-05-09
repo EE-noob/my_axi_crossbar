@@ -56,7 +56,7 @@ module async_rd_addr_cac#( parameter ADDR_SIZE = 4)
     assign rd_addr = rd_addr_binary[ADDR_SIZE - 1: 0];
     assign rd_addr_binary_next = rd_addr_binary + rd_vld;
     assign rd_addr_gray_next = (rd_addr_binary_next >> 1) ^ rd_addr_binary_next;
-    assign empty_next = (rd_addr_binary_next == wr_addr_rsyn2);
+    assign empty_next = (rd_addr_gray_next == wr_addr_rsyn2);
 
     
     always@(posedge rd_clk or negedge rd_rstn) begin
@@ -71,7 +71,7 @@ module async_rd_addr_cac#( parameter ADDR_SIZE = 4)
 
     always @(posedge rd_clk or negedge rd_rstn) begin
         if(!rd_rstn) begin
-            empty <= 'b0;
+            empty <= 'b1;
         end else begin
             empty <= empty_next;
         end

@@ -33,7 +33,7 @@ module Async_FIFO#(parameter DATA_WIDTH = 16, parameter ADDR_SIZE = 4)
       input [DATA_WIDTH - 1 : 0] din;
       output full;
       output empty;
-      output reg [DATA_WIDTH - 1 : 0] dout;      
+      output [DATA_WIDTH - 1 : 0] dout;      
       
 
       wire [ADDR_SIZE : 0] rd_addr_gray;

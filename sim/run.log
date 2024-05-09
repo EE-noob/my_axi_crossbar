@@ -1,0 +1,417 @@
+Command: vcs -full64 -sverilog +v2k -timescale=1ns/1ns -debug_all +notimingcheck \
++nospecify +vcs+flush+all -o simv -l compile.log -f rtl_list.f -f sim_list.f +incdir+../tb \
+-P /home/synopsys/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/novas.tab /home/synopsys/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/pli.a \
+-R +fsdb+autoflush -l run.log
+                         Chronologic VCS (TM)
+        Version O-2018.09-1_Full64 -- Thu May  9 15:23:02 2024
+               Copyright (c) 1991-2018 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+
+Warning-[DEBUG_DEP] Option will be deprecated
+  The option '-debug_all' will be deprecated in a future release.  Please use 
+  '-debug_acc+all -debug_region+cell+encrypt' instead.
+
+Parsing design file '../rtl/async_fifo.v'
+Parsing design file '../rtl/async_rd_addr_cac.v'
+Parsing design file '../rtl/async_wr_addr_cac.v'
+Parsing design file '../rtl/axi_crossbar_mst_if.sv'
+Parsing design file '../rtl/axi_crossbar_mst_switch.sv'
+Parsing design file '../rtl/axi_crossbar_pipeline.sv'
+Parsing design file '../rtl/axi_crossbar_slv_if.sv'
+Parsing design file '../rtl/axi_crossbar_slv_switch.sv'
+Parsing design file '../rtl/axi_crossbar_switch_top.sv'
+Parsing design file '../rtl/axi_crossbar_top.sv'
+Parsing design file '../rtl/cam_bram.v'
+Parsing design file '../rtl/dual_ram.v'
+Parsing design file '../rtl/ram_dp.v'
+Parsing design file '../rtl/round_arbiter.sv'
+Parsing design file '../rtl/round_arbiter_core.sv'
+Parsing design file '../rtl/sync_fifo.sv'
+Parsing design file '../rtl/sync_fifo_ram.sv'
+Parsing design file '../tb/axi_mst_driver.sv'
+Parsing included file '../tb/macro.vh'.
+Back to file '../tb/axi_mst_driver.sv'.
+Parsing design file '../tb/axi_slv_responder.sv'
+Parsing design file '../tb/tb_top.sv'
+Parsing included file '../tb/macro.vh'.
+Back to file '../tb/tb_top.sv'.
+Top Level Modules:
+       tb_top
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_top.sv, 350
+  Attempting to override undefined parameter "MST0_ID_MASK", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_mst_if.sv, 150
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_mst_if.sv, 171
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_mst_if.sv, 192
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_mst_if.sv, 213
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_mst_if.sv, 234
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_top.sv, 426
+  Attempting to override undefined parameter "MST1_ID_MASK", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_top.sv, 502
+  Attempting to override undefined parameter "MST2_ID_MASK", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_slv_if.sv, 143
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_slv_if.sv, 164
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_slv_if.sv, 185
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_slv_if.sv, 206
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_slv_if.sv, 227
+  Attempting to override undefined parameter "ADDR_ASIZE", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_mst_switch.sv, 337
+  Attempting to override undefined parameter "CAM_DATA_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/axi_crossbar_mst_switch.sv, 337
+  Attempting to override undefined parameter "CAM_ADDR_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 478
+  Attempting to override undefined parameter "DATA_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 478
+  Attempting to override undefined parameter "ADDR_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 492
+  Attempting to override undefined parameter "DATA_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 492
+  Attempting to override undefined parameter "ADDR_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 478
+  Attempting to override undefined parameter "DATA_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 478
+  Attempting to override undefined parameter "ADDR_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 492
+  Attempting to override undefined parameter "DATA_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 492
+  Attempting to override undefined parameter "ADDR_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 478
+  Attempting to override undefined parameter "DATA_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 478
+  Attempting to override undefined parameter "ADDR_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 492
+  Attempting to override undefined parameter "DATA_WIDTH", will ignore it.
+
+
+Warning-[AOUP] Attempt to override undefined parameter
+../rtl/cam_bram.v, 492
+  Attempting to override undefined parameter "ADDR_WIDTH", will ignore it.
+
+TimeScale is 1 ps / 1 ps
+
+Warning-[TFIPC] Too few instance port connections
+../tb/tb_top.sv, 655
+tb_top, "axi_slv_responder #(.AXI_ADDR_W(AXI_ADDR_W), .AXI_ID_W(AXI_ID_W), .AXI_DATA_W(AXI_DATA_W), .SLV_OSTDREQ_NUM(SLV0_OSTDREQ_NUM), .SLV_OSTDREQ_SIZE(SLV0_OSTDREQ_SIZE), .AWCH_W(AWCH_W), .WCH_W(WCH_W), .BCH_W(BCH_W), .ARCH_W(ARCH_W), .RCH_W(RCH_W)) axi_slv0_responder_inst( .aclk (aclk),  .aresetn (aresetn),  .srst (srst),  .out_awready (slv0_awready),  .out_wready (slv0_wready),  .in_wlast (slv0_wlast),  .out_bvalid (slv0_bvalid),  .in_bready (slv0_bready),  .out_bid (slv0_bid),  .out_bresp (slv0_bresp));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+../tb/tb_top.sv, 680
+tb_top, "axi_slv_responder #(.AXI_ADDR_W(AXI_ADDR_W), .AXI_ID_W(AXI_ID_W), .AXI_DATA_W(AXI_DATA_W), .SLV_OSTDREQ_NUM(SLV0_OSTDREQ_NUM), .SLV_OSTDREQ_SIZE(SLV0_OSTDREQ_SIZE), .AWCH_W(AWCH_W), .WCH_W(WCH_W), .BCH_W(BCH_W), .ARCH_W(ARCH_W), .RCH_W(RCH_W)) axi_slv1_responder_inst( .aclk (aclk),  .aresetn (aresetn),  .srst (srst),  .out_awready (slv1_awready),  .out_wready (slv1_wready),  .in_wlast (slv1_wlast),  .out_bvalid (slv1_bvalid),  .in_bready (slv1_bready),  .out_bid (slv1_bid),  .out_bresp (slv1_bresp));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+../tb/tb_top.sv, 705
+tb_top, "axi_slv_responder #(.AXI_ADDR_W(AXI_ADDR_W), .AXI_ID_W(AXI_ID_W), .AXI_DATA_W(AXI_DATA_W), .SLV_OSTDREQ_NUM(SLV2_OSTDREQ_NUM), .SLV_OSTDREQ_SIZE(SLV2_OSTDREQ_SIZE), .AWCH_W(AWCH_W), .WCH_W(WCH_W), .BCH_W(BCH_W), .ARCH_W(ARCH_W), .RCH_W(RCH_W)) axi_slv2_responder_inst( .aclk (aclk),  .aresetn (aresetn),  .srst (srst),  .out_awready (slv2_awready),  .out_wready (slv2_wready),  .in_wlast (slv2_wlast),  .out_bvalid (slv2_bvalid),  .in_bready (slv2_bready),  .out_bid (slv2_bid),  .out_bresp (slv2_bresp));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/axi_crossbar_mst_if.sv, 234
+"Async_FIFO #(RCH_W, ) r_async_fifo( .wr_clk (o_aclk),  .wr_rstn (o_aresetn),  .wr_en (r_wren),  .din ({o_rlast, o_rch}),  .full (r_full),  .rd_clk (i_aclk),  .rd_rstn (i_aresetn),  .rd_en (r_rden),  .empty (r_empty),  .dout ({i_rlast, rch}));"
+  The following 42-bit expression is connected to 41-bit port "din" of module 
+  "Async_FIFO", instance "r_async_fifo".
+  Expression: {o_rlast, o_rch}
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/axi_crossbar_mst_if.sv, 234
+"Async_FIFO #(RCH_W, ) r_async_fifo( .wr_clk (o_aclk),  .wr_rstn (o_aresetn),  .wr_en (r_wren),  .din ({o_rlast, o_rch}),  .full (r_full),  .rd_clk (i_aclk),  .rd_rstn (i_aresetn),  .rd_en (r_rden),  .empty (r_empty),  .dout ({i_rlast, rch}));"
+  The following 42-bit expression is connected to 41-bit port "dout" of module
+  "Async_FIFO", instance "r_async_fifo".
+  Expression: {i_rlast, rch}
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/axi_crossbar_slv_if.sv, 227
+"Async_FIFO #(RCH_W, ) r_async_fifo( .wr_clk (o_aclk),  .wr_rstn (o_aresetn),  .wr_en (r_wren),  .din ({rlast, rch}),  .full (r_full),  .rd_clk (i_aclk),  .rd_rstn (i_aresetn),  .rd_en (r_rden),  .empty (r_empty),  .dout ({i_rlast, i_rch}));"
+  The following 42-bit expression is connected to 41-bit port "din" of module 
+  "Async_FIFO", instance "r_async_fifo".
+  Expression: {rlast, rch}
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/axi_crossbar_slv_if.sv, 227
+"Async_FIFO #(RCH_W, ) r_async_fifo( .wr_clk (o_aclk),  .wr_rstn (o_aresetn),  .wr_en (r_wren),  .din ({rlast, rch}),  .full (r_full),  .rd_clk (i_aclk),  .rd_rstn (i_aresetn),  .rd_en (r_rden),  .empty (r_empty),  .dout ({i_rlast, i_rch}));"
+  The following 42-bit expression is connected to 41-bit port "dout" of module
+  "Async_FIFO", instance "r_async_fifo".
+  Expression: {i_rlast, i_rch}
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 478
+"ram_dp ram_lut( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_din),  .b_dout (ram_dout));"
+  The following 32-bit expression is connected to 8-bit port "a_din" of module
+  "ram_dp", instance "ram_lut".
+  Expression: 'b0
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 478
+"ram_dp ram_lut( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_din),  .b_dout (ram_dout));"
+  The following 1-bit expression is connected to 8-bit port "a_dout" of module
+  "ram_dp", instance "ram_lut".
+  Expression: match
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 478
+"ram_dp ram_lut( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_din),  .b_dout (ram_dout));"
+  The following 1-bit expression is connected to 8-bit port "b_din" of module 
+  "ram_dp", instance "ram_lut".
+  Expression: ram_din
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 478
+"ram_dp ram_lut( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_din),  .b_dout (ram_dout));"
+  The following 1-bit expression is connected to 8-bit port "b_dout" of module
+  "ram_dp", instance "ram_lut".
+  Expression: ram_dout
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 492
+"ram_dp target_store( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match_target),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_target),  .b_dout (ram_target_dout));"
+  The following 32-bit expression is connected to 8-bit port "a_din" of module
+  "ram_dp", instance "target_store".
+  Expression: 'b0
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 492
+"ram_dp target_store( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match_target),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_target),  .b_dout (ram_target_dout));"
+  The following 3-bit expression is connected to 8-bit port "a_dout" of module
+  "ram_dp", instance "target_store".
+  Expression: match_target
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 492
+"ram_dp target_store( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match_target),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_target),  .b_dout (ram_target_dout));"
+  The following 3-bit expression is connected to 8-bit port "b_din" of module 
+  "ram_dp", instance "target_store".
+  Expression: ram_target
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/cam_bram.v, 492
+"ram_dp target_store( .clk (clk),  .rstn (rstn),  .a_we (wr_del),  .a_addr (compare_addr),  .a_din ('b0),  .a_dout (match_target),  .b_we (wr_en),  .b_addr (ram_addr),  .b_din (ram_target),  .b_dout (ram_target_dout));"
+  The following 3-bit expression is connected to 8-bit port "b_dout" of module
+  "ram_dp", instance "target_store".
+  Expression: ram_target_dout
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/sync_fifo.sv, 58
+"sync_fifo_ram #(ADDR_WIDTH, DATA_WIDTH) sync_ram( .aclk (aclk),  .aresetn (aresetn),  .srst (srst),  .wr_en (wr_en),  .addr_in (wr_ptr),  .data_in (data_in),  .addr_out (rd_ptr),  .data_out (data_fifo));"
+  The following 3-bit expression is connected to 2-bit port "addr_in" of 
+  module "sync_fifo_ram", instance "sync_ram".
+  Expression: wr_ptr
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/sync_fifo.sv, 58
+"sync_fifo_ram #(ADDR_WIDTH, DATA_WIDTH) sync_ram( .aclk (aclk),  .aresetn (aresetn),  .srst (srst),  .wr_en (wr_en),  .addr_in (wr_ptr),  .data_in (data_in),  .addr_out (rd_ptr),  .data_out (data_fifo));"
+  The following 3-bit expression is connected to 2-bit port "addr_out" of 
+  module "sync_fifo_ram", instance "sync_ram".
+  Expression: rd_ptr
+  	use +lint=PCWM for more details
+
+
+Warning-[SIOB] Select index out of bounds
+../rtl/axi_crossbar_mst_switch.sv, 407
+"bch_grant[3]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : INSTANTIATE_MST_SWITCH[0].mst_switch 
+  INSTANTIATE_MST_SWITCH[1].mst_switch INSTANTIATE_MST_SWITCH[2].mst_switch 
+  In module : axi_crossbar_mst_switch.
+
+
+Warning-[SIOB] Select index out of bounds
+../rtl/axi_crossbar_mst_switch.sv, 407
+"o_bch[(3 * BCH_W)+:BCH_W]"
+  The select index is out of declared bounds : [23:0].
+  In module instance : INSTANTIATE_MST_SWITCH[0].mst_switch 
+  INSTANTIATE_MST_SWITCH[1].mst_switch INSTANTIATE_MST_SWITCH[2].mst_switch 
+  In module : axi_crossbar_mst_switch.
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/sync_fifo.sv, 58
+"sync_fifo_ram #(ADDR_WIDTH, DATA_WIDTH) sync_ram( .aclk (aclk),  .aresetn (aresetn),  .srst (srst),  .wr_en (wr_en),  .addr_in (wr_ptr),  .data_in (data_in),  .addr_out (rd_ptr),  .data_out (data_fifo));"
+  The following 3-bit expression is connected to 2-bit port "addr_in" of 
+  module "sync_fifo_ram", instance "sync_ram".
+  Expression: wr_ptr
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+../rtl/sync_fifo.sv, 58
+"sync_fifo_ram #(ADDR_WIDTH, DATA_WIDTH) sync_ram( .aclk (aclk),  .aresetn (aresetn),  .srst (srst),  .wr_en (wr_en),  .addr_in (wr_ptr),  .data_in (data_in),  .addr_out (rd_ptr),  .data_out (data_fifo));"
+  The following 3-bit expression is connected to 2-bit port "addr_out" of 
+  module "sync_fifo_ram", instance "sync_ram".
+  Expression: rd_ptr
+  	use +lint=PCWM for more details
+
+Starting vcs inline pass...
+10 modules and 0 UDP read.
+recompiling module Async_FIFO
+	However, due to incremental compilation, only 1 module needs to be compiled. 
+make[1]: Entering directory '/home/ICer/work/my_axi_crossbar/sim/csrc'
+rm -f _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -Bsymbolic  -o .//../simv.daidir//_csrc0.so objs/amcQw_d.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv    -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ \
+-Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic  -Wl,-rpath=/home/synopsys/vcs-mx/O-2018.09-1/linux64/lib \
+-L/home/synopsys/vcs-mx/O-2018.09-1/linux64/lib     _98980_archive_1.so _prev_archive_1.so \
+_csrc0.so  SIM_l.o  _csrc0.so     rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o \
+rmar_llvm_0_0.o          -lzerosoft_rt_stubs -lvirsim -lerrorinf -lsnpsmalloc -lvfs \
+/home/synopsys/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/pli.a    -lvcsnew \
+-lsimprofile -luclinative /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/vcs_tls.o \
+-Wl,-whole-archive -lvcsucli -Wl,-no-whole-archive        _vcs_pli_stub_.o   /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/vcs_save_restore_new.o \
+-ldl -lm  -lc -lpthread -ldl 
+../simv up to date
+make[1]: Leaving directory '/home/ICer/work/my_axi_crossbar/sim/csrc'
+Command: /home/ICer/work/my_axi_crossbar/sim/./simv +v2k +notimingcheck +nospecify +vcs+flush+all -a compile.log +fsdb+autoflush -a run.log
+Chronologic VCS simulator copyright 1991-2018
+Contains Synopsys proprietary information.
+Compiler version O-2018.09-1_Full64; Runtime version O-2018.09-1_Full64;  May  9 15:23 2024
+*Verdi* Loading libsscore_vcs201809.so
+FSDB Dumper for VCS, Release Verdi_O-2018.09-SP2, Linux x86_64/64bit, 02/21/2019
+(C) 1996 - 2019 by Synopsys, Inc.
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'testname.fsdb'
+*Verdi* : Begin traversing the scopes, layer (0).
+*Verdi* : Enable +all dumping.
+*Verdi* : End of traversing.
+*Verdi* : Begin traversing the SVA assertions, layer (0).
+*Verdi* : End of traversing the SVA assertions.
+*Verdi* : Begin traversing the MDAs, layer (0).
+*Verdi* : Enable +mda and +packedmda dumping.
+*Verdi* : End of traversing the MDAs.
+write to addr 0x00000f21,len=0d 7
+write to addr 0x000006d8,len=0d 7
+write to addr 0x000004bb,len=0d 0
+write to addr 0x00000f46,len=0d 5
+!!!!!!ERROR Timeout !!!!!!!! at time           5000000000
+!!!!!!ERROR Timeout !!!!!!!! at time           5000000000
+!!!!!!ERROR Timeout !!!!!!!! at time           5000000000
+$finish called from file "../tb/tb_top.sv", line 921.
+$finish at simulation time           5000000000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 5000000000 ps
+CPU Time:      4.070 seconds;       Data structure size:   0.2Mb
+Thu May  9 15:23:05 2024
+CPU time: .479 seconds to compile + .241 seconds to elab + .160 seconds to link + 4.095 seconds in simulation

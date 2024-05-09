@@ -1,0 +1,232 @@
+*design* DebussyLib (btIdent Verdi_O-2018.09-SP2)
+Command arguments:
+    +define+verilog
+    -sv
+    -f rtl_list.f
+        ../rtl/async_fifo.v
+        ../rtl/async_rd_addr_cac.v
+        ../rtl/async_wr_addr_cac.v
+        ../rtl/axi_crossbar_mst_if.sv
+        ../rtl/axi_crossbar_mst_switch.sv
+        ../rtl/axi_crossbar_pipeline.sv
+        ../rtl/axi_crossbar_slv_if.sv
+        ../rtl/axi_crossbar_slv_switch.sv
+        ../rtl/axi_crossbar_switch_top.sv
+        ../rtl/axi_crossbar_top.sv
+        ../rtl/cam_bram.v
+        ../rtl/dual_ram.v
+        ../rtl/ram_dp.v
+        ../rtl/round_arbiter.sv
+        ../rtl/round_arbiter_core.sv
+        ../rtl/sync_fifo.sv
+        ../rtl/sync_fifo_ram.sv
+    -f sim_list.f
+        ../tb/axi_mst_driver.sv
+        ../tb/axi_slv_responder.sv
+        ../tb/tb_top.sv
+
+
+*Error* `include file "macro.vh" cannot be read
+"../tb/axi_mst_driver.sv", 1: 
+
+*Error* `include file "macro.vh" cannot be read
+"../tb/tb_top.sv", 1: 
+
+*Error* macro `SLV0_START_ADDR not defined
+"../tb/tb_top.sv", 802: 
+
+*Error* macro `SLV0_END_ADDR not defined
+"../tb/tb_top.sv", 802: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 802: 
+
+*Error* macro `SLV1_START_ADDR not defined
+"../tb/tb_top.sv", 806: 
+
+*Error* macro `SLV1_END_ADDR not defined
+"../tb/tb_top.sv", 806: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 806: 
+
+*Error* macro `SLV2_START_ADDR not defined
+"../tb/tb_top.sv", 809: 
+
+*Error* macro `SLV2_END_ADDR not defined
+"../tb/tb_top.sv", 809: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 809: 
+
+*Error* macro `INCR not defined
+"../tb/tb_top.sv", 819: 
+
+*Error* Syntax error at =
+"../tb/tb_top.sv", 820: 
+
+*Error* macro `INCR not defined
+"../tb/tb_top.sv", 828: 
+
+*Error* Syntax error at =
+"../tb/tb_top.sv", 829: 
+
+*Error* macro `INCR not defined
+"../tb/tb_top.sv", 837: 
+
+*Error* Syntax error at =
+"../tb/tb_top.sv", 838: 
+
+*Error* macro `SLV0_START_ADDR not defined
+"../tb/tb_top.sv", 856: 
+
+*Error* macro `SLV0_END_ADDR not defined
+"../tb/tb_top.sv", 856: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 856: 
+
+*Error* macro `SLV1_START_ADDR not defined
+"../tb/tb_top.sv", 860: 
+
+*Error* macro `SLV1_END_ADDR not defined
+"../tb/tb_top.sv", 860: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 860: 
+
+*Error* macro `SLV2_START_ADDR not defined
+"../tb/tb_top.sv", 863: 
+
+*Error* macro `SLV2_END_ADDR not defined
+"../tb/tb_top.sv", 863: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 863: 
+
+*Error* macro `INCR not defined
+"../tb/tb_top.sv", 873: 
+
+*Error* Syntax error at =
+"../tb/tb_top.sv", 874: 
+
+*Error* macro `INCR not defined
+"../tb/tb_top.sv", 882: 
+
+*Error* Syntax error at =
+"../tb/tb_top.sv", 883: 
+
+*Error* macro `INCR not defined
+"../tb/tb_top.sv", 891: 
+
+*Error* Syntax error at =
+"../tb/tb_top.sv", 892: 
+
+*Error* macro `MST0 not defined
+"../tb/tb_top.sv", 959: 
+
+*Error* macro `MST1 not defined
+"../tb/tb_top.sv", 960: 
+
+*Error* macro `MST2 not defined
+"../tb/tb_top.sv", 961: 
+
+*Error* macro `MST0 not defined
+"../tb/tb_top.sv", 971: 
+
+*Error* macro `SLV0 not defined
+"../tb/tb_top.sv", 971: 
+
+*Error* macro `MST0 not defined
+"../tb/tb_top.sv", 976: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 959: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 960: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 961: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 971: 
+
+*Error* Syntax error at ;
+"../tb/tb_top.sv", 976: 
+
+*Error* mismatched task aw_req_clr arguments
+"../tb/tb_top.sv", 959: 
+
+*Error* mismatched task aw_req_clr arguments
+"../tb/tb_top.sv", 960: 
+
+*Error* mismatched task aw_req_clr arguments
+"../tb/tb_top.sv", 961: 
+
+*Error* mismatched task aw_INCR_req_random arguments
+"../tb/tb_top.sv", 971: 
+
+*Error* mismatched task aw_req_clr arguments
+"../tb/tb_top.sv", 976: 
+Highest level modules:
+tb_top
+
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_mst_if.sv", 150: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_mst_if.sv", 171: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_mst_if.sv", 192: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_mst_if.sv", 213: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_mst_if.sv", 234: 
+
+*Warning* Failed to find the specified instance parameter CAM_DATA_WIDTH in the master cam_bram
+"../rtl/axi_crossbar_mst_switch.sv", 337: 
+
+*Warning* Failed to find the specified instance parameter CAM_ADDR_WIDTH in the master cam_bram
+"../rtl/axi_crossbar_mst_switch.sv", 337: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_slv_if.sv", 143: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_slv_if.sv", 164: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_slv_if.sv", 185: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_slv_if.sv", 206: 
+
+*Warning* Failed to find the specified instance parameter ADDR_ASIZE in the master Async_FIFO
+"../rtl/axi_crossbar_slv_if.sv", 227: 
+
+*Warning* Failed to find the specified instance parameter MST0_ID_MASK in the master axi_crossbar_mst_if
+"../rtl/axi_crossbar_top.sv", 350: 
+
+*Warning* Failed to find the specified instance parameter MST1_ID_MASK in the master axi_crossbar_mst_if
+"../rtl/axi_crossbar_top.sv", 426: 
+
+*Warning* Failed to find the specified instance parameter MST2_ID_MASK in the master axi_crossbar_mst_if
+"../rtl/axi_crossbar_top.sv", 502: 
+
+*Warning* Failed to find the specified instance parameter DATA_WIDTH in the master ram_dp
+"../rtl/cam_bram.v", 478: 
+
+*Warning* Failed to find the specified instance parameter ADDR_WIDTH in the master ram_dp
+"../rtl/cam_bram.v", 478: 
+
+*Warning* Failed to find the specified instance parameter DATA_WIDTH in the master ram_dp
+"../rtl/cam_bram.v", 492: 
+
+*Warning* Failed to find the specified instance parameter ADDR_WIDTH in the master ram_dp
+"../rtl/cam_bram.v", 492: 
+Total	48 error(s),   19 warning(s)

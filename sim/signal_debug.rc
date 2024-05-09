@@ -1,0 +1,115 @@
+Magic 271485
+Revision Verdi_O-2018.09-SP2
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort -10 242 1758 507 255 65
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/home/ICer/work/my_axi_crossbar/sim/testname.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 0.000000 68823.596908
+cursor 10000.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+; visible top row signal index
+top 0
+; marker line index
+markerPos 30
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByChange
+
+
+addGroup "G1"
+activeDirFile "" "/home/ICer/work/my_axi_crossbar/sim/testname.fsdb"
+addSignal -h 15 /tb_top/aclk
+addSignal -h 15 -holdScope aresetn
+addSubGroup "mst0_aw_channel"
+addSignal -h 15 /tb_top/mst0_awvalid
+addSignal -h 15 -holdScope mst0_awready
+addSignal -h 15 -UNSIGNED -HEX -holdScope mst0_awid[3:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope mst0_awaddr[31:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope mst0_awburst[1:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope mst0_awlen[3:0]
+addSignal -h 15 -UNSIGNED -HEX -holdScope mst0_awlock[1:0]
+addSignal -h 15 -holdScope mst0_awsize[2:0]
+endSubGroup "mst0_aw_channel"
+addSignal -h 15 /tb_top/mst0_bid[3:0]
+addSignal -h 15 -holdScope mst0_bready
+addSignal -h 15 -holdScope mst0_wvalid
+addGroup "mst0_if_aw_async_fifo"
+addSignal -h 15 /tb_top/axi_crossbar_top_inst/mst0_if/aw_async_fifo/din[48:0]
+addSignal -h 15 -holdScope dout[48:0]
+addSignal -h 15 -holdScope empty
+addSignal -h 15 -holdScope full
+addSignal -h 15 -holdScope rd_addr[3:0]
+addSignal -h 15 -holdScope rd_addr_gray[4:0]
+addSignal -h 15 -holdScope rd_clk
+addSignal -h 15 -holdScope rd_en
+addSignal -h 15 -holdScope rd_rstn
+addSignal -h 15 -holdScope wr_clk
+addSignal -h 15 -holdScope wr_en
+addSignal -h 15 -holdScope wr_rstn
+addSignal -h 15 -holdScope wr_addr[3:0]
+addSignal -h 15 -holdScope wr_addr_gray[4:0]
+addSubGroup "wr_addr_cac"
+addSignal -h 15 /tb_top/axi_crossbar_top_inst/mst0_if/aw_async_fifo/wr_addr_cac/full
+addSignal -h 15 -holdScope full_next
+addSignal -h 15 -holdScope rd_addr_gray[4:0]
+addSignal -h 15 -holdScope rd_addr_rsyn1[3:0]
+addSignal -h 15 -holdScope rd_addr_rsyn2[3:0]
+addSignal -h 15 -holdScope wr_addr[3:0]
+addSignal -h 15 -holdScope wr_addr_binary[4:0]
+addSignal -h 15 -holdScope wr_addr_binary_next[4:0]
+addSignal -h 15 -holdScope wr_addr_gray[4:0]
+endSubGroup "wr_addr_cac"
+addGroup "G3"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+activeDirFile "" "/home/ICer/work/my_axi_crossbar/sim/testname.fsdb"
+
+GETSIGNALFORM_SCOPE_HIERARCHY_BEGIN
+getSignalForm close
+
+"/tb_top"
+"/tb_top/axi_crossbar_top_inst"
+"/tb_top/axi_crossbar_top_inst/mst0_if"
+"/tb_top/axi_crossbar_top_inst/mst0_if/aw_async_fifo"
+
+SCOPE_LIST_BEGIN
+"/tb_top"
+"/tb_top/axi_crossbar_top_inst/mst0_if"
+"/tb_top/axi_crossbar_top_inst/mst0_if/aw_async_fifo"
+"/tb_top/axi_crossbar_top_inst"
+"/tb_top/axi_crossbar_top_inst/mst0_if/aw_async_fifo/wr_addr_cac"
+SCOPE_LIST_END
+
+GETSIGNALFORM_SCOPE_HIERARCHY_END
+
+

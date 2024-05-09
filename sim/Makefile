@@ -45,7 +45,7 @@ initfl:
 run_vcs:
 	$(NOR_VCS) $(VERDI_SW) $(RUN_VER)
 vd:
-	verdi -sv -f $(rtl_list).f -f $(sim_list).f -ssf *.fsdb -rcFile ~/dark.rc -nologo  & 
+	verdi -sv -f $(rtl_list).f -f $(sim_list).f -ssf *.fsdb  -nologo  & 
 #normally sim
 norsim: 
 	$(NOR_VCS) $(RUN_GUI) 

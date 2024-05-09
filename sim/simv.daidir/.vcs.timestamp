@@ -1,0 +1,157 @@
+2        
+0 macro.vh
+0 /home/synopsys/vcs-mx/O-2018.09-1/etc/systemverilog/macro.vh
+44
++fsdb+autoflush
++incdir+../tb
++itf+/home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/vcsdp.tab
++memcbk
++nospecify
++notimingcheck
++v2k
++vcs+flush+all
++vcsd
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/home/synopsys/vcs-mx/O-2018.09-1/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/libvirsim.so /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/liberrorinf.so /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/libsnpsmalloc.so /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/libvfs.so /home/synopsys/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/pli.a
+-Mout=simv
+-Msaverestoreobj=/home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=-ldl -lm
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/home/synopsys/vcs-mx/O-2018.09-1/include
+-P
+-Xvcs_run_simv=1
+-debug_access+all+bc
+-debug_region+cell
+-f rtl_list.f
+-f sim_list.f
+-full64
+-gen_obj
+-l
+-l
+-o simv
+-picarchive
+-sverilog
+-timescale=1ns/1ns
+/home/synopsys/vcs-mx/O-2018.09-1/linux64/bin/vcs1
+/home/synopsys/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/novas.tab
+compile.log
+run.log
+73
+sysc_uni_pwd=/home/ICer/work/my_axi_crossbar/sim
+XILINX_VIVADO=/home/Xilinx/Vivado/2019.1
+XDG_SESSION_ID=1
+XDG_RUNTIME_DIR=/run/user/1000
+XDG_DATA_DIRS=/home/ICer/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+VSCODE_IPC_HOOK_CLI=/run/user/1000/vscode-ipc-fcd7aa09-a5fd-41fb-be39-632b853a1d5a.sock
+VSCODE_GIT_IPC_HANDLE=/run/user/1000/vscode-git-e7d7a106fb.sock
+VSCODE_GIT_ASKPASS_NODE=/home/ICer/.vscode-server/bin/8b3775030ed1a69b13e4f4c628c612102e30a681/node
+VSCODE_GIT_ASKPASS_MAIN=/home/ICer/.vscode-server/bin/8b3775030ed1a69b13e4f4c628c612102e30a681/extensions/git/dist/askpass-main.js
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+VMR_MODE_FLAG=64
+VERDI_HOME=/home/synopsys/verdi/Verdi_O-2018.09-SP2
+VCS_MX_HOME_INTERNAL=1
+VCS_MODE_FLAG=64
+VCS_LOG_FILE=run.log
+VCS_HOME=/home/synopsys/vcs-mx/O-2018.09-1
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH_OVERRIDE=linux
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/home/synopsys/vcs-mx/O-2018.09-1/linux64
+TERM_PROGRAM_VERSION=1.85.2
+TERM_PROGRAM=vscode
+SYNPLIFY_HOME=/home/synopsys/fpga/N-2018.03-SP1
+SVUT=/home/Icer/work/axi-crossbar/script/.svut
+SSH_CONNECTION=192.168.207.1 4346 192.168.207.128 22
+SSH_CLIENT=192.168.207.1 4346 22
+SPYGLASS_HOME=/home/synopsys/SpyGlass-L2016.06/SPYGLASS_HOME/
+SPECMAN_HOME=/home/cadence/INCISIVE152/components/sn
+SPECMAN_DIR=/home/cadence/INCISIVE152/components/sn/
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+SCL_HOME=/home/synopsys/scl/2018.06
+RISCV=/home/Riscv_Tools
+QUESTASIM_HOME=/home/mentor/questasim
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+QT_GRAPHICSSYSTEM_CHECKED=1
+QTLIB=/usr/lib/qt-3.3/lib
+QTINC=/usr/lib/qt-3.3/include
+QTDIR=/usr/lib/qt-3.3
+QEMU_HOME=/home/Riscv_Tools/riscv-gnu-toolchain/qemu-6.0.0
+PT_HOME=/home/synopsys/pts/O-2018.06-SP1
+OVA_UUM=0
+MMSIMHOME=/home/cadence/MMSIM151
+MGLS_LICENSE_FILE=/home/mentor/questasim/mentor.dat
+MGC_LICENSE_FILE=/home/mentor//license/license.dat
+MGC_HOME=/home/mentor/
+MGC_CALIBRE_SCHEMATIC_SERVER=IC_EDA:9199
+MGC_CALIBRE_LAYOUT_SERVER=IC_EDA:9189
+MFLAGS=
+MAKE_TERMOUT=/dev/pts/3
+MAKE_TERMERR=/dev/pts/3
+MAKELEVEL=1
+MAKEFLAGS=
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LC_HOME=/home/synopsys/lc/O-2018.06-SP1
+LC_ALL=C
+KDEDIRS=/usr
+INCISIVE_HOME=/home/cadence/INCISIVE152
+ICC2_HOME=/home/synopsys/icc2/O-2018.06-SP1
+HISTCONTROL=ignoredups
+GIT_ASKPASS=/home/ICer/.vscode-server/bin/8b3775030ed1a69b13e4f4c628c612102e30a681/extensions/git/dist/askpass.sh
+DVE_HOME=/home/synopsys/vcs-mx/O-2018.09-1
+DC_HOME=/home/synopsys/syn/O-2018.06-SP1
+COLORTERM=truecolor
+CDS_LIC_FILE=/home/cadence/license/cadence.dat
+CDSHOME=/home/cadence/IC617
+CALIBRE_HOME=/home/mentor//Calibre2015/aoi_cal_2015.2_36.27
+CADHOME=/home/cadence
+0
+25
+1715178527 ../tb/macro.vh
+1715178527 ../tb/tb_top.sv
+1715178527 ../tb/axi_slv_responder.sv
+1715178527 ../tb/axi_mst_driver.sv
+1715173830 ../rtl/sync_fifo_ram.sv
+1715173830 ../rtl/sync_fifo.sv
+1715173830 ../rtl/round_arbiter_core.sv
+1715173830 ../rtl/round_arbiter.sv
+1715173830 ../rtl/ram_dp.v
+1715173830 ../rtl/dual_ram.v
+1715173830 ../rtl/cam_bram.v
+1715173830 ../rtl/axi_crossbar_top.sv
+1715173830 ../rtl/axi_crossbar_switch_top.sv
+1715173830 ../rtl/axi_crossbar_slv_switch.sv
+1715173830 ../rtl/axi_crossbar_slv_if.sv
+1715173830 ../rtl/axi_crossbar_pipeline.sv
+1715173830 ../rtl/axi_crossbar_mst_switch.sv
+1715173830 ../rtl/axi_crossbar_mst_if.sv
+1715174337 ../rtl/async_wr_addr_cac.v
+1715239356 ../rtl/async_rd_addr_cac.v
+1715173830 ../rtl/async_fifo.v
+1715239381 sim_list.f
+1715239381 rtl_list.f
+1550753332 /home/synopsys/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/novas.tab
+1539400757 /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/vcsdp.tab
+5
+1539402341 /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/libvirsim.so
+1539401183 /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/liberrorinf.so
+1539401125 /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/libsnpsmalloc.so
+1539401175 /home/synopsys/vcs-mx/O-2018.09-1/linux64/lib/libvfs.so
+1550752033 /home/synopsys/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/pli.a
+1715239385 simv.daidir
+-1 partitionlib
