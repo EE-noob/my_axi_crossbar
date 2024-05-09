@@ -41,10 +41,10 @@ module axi_slv_responder #(
     input logic in_arvalid,
     input  logic  in_arready,
     // input logic [AXI_ADDR_W  - 1 : 0] o_araddr,
-    // input logic [4           - 1 : 0] o_arlen,
+    input logic [4           - 1 : 0] in_arlen,
     // input logic [3           - 1 : 0] o_arsize,
     // input logic [2           - 1 : 0] o_arburst,
-    // input logic [AXI_ID_W    - 1 : 0] o_arid,
+    input logic [AXI_ID_W    - 1 : 0] in_arid,
     // input logic [2           - 1 : 0] o_arlock,
     //R Channel
     output  logic  out_rvalid,
@@ -179,12 +179,67 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
             bid_ram[bid_wr_ptr]<= 2'b00;//均默认接收正常
         end
 
+
+//id 、 len
+        always_ff @( posedge aclk or negedge aresetn) begin : __arlen_rd_ptr
+            if(!aresetn)
+                arlen_rd_ptr <= 'b0;
+            else if(out_rlast)
+                arlen_rd_ptr <= arlen_rd_ptr+1;
+            end
+        
+        always_ff @( posedge aclk or negedge aresetn) begin : __arlen_wr_ptr
+            if(!aresetn)
+                arlen_wr_ptr <= 'b0;
+            else if(in_arvalid && in_arready)
+                arlen_wr_ptr <= arlen_wr_ptr+1;
+            end
+        
+        always_ff @( posedge aclk or negedge aresetn) begin : __arlen_ram
+            if(!aresetn)
+            for (integer i = 0; i < SLV_OSTDREQ_NUM; i = i + 1) begin
+                arlen_ram[i] <= 'b0;
+              end
+            else if(in_arvalid && in_arready)
+                arlen_ram[arlen_wr_ptr]<= in_arlen;
+            end
+            
+        always_ff @( posedge aclk or negedge aresetn) begin : __arid_rd_ptr
+            if(!aresetn)
+                arid_rd_ptr <= 'b0;
+            else if(out_rlast)
+                arid_rd_ptr <= arlen_rd_ptr+1;
+            end
+        
+        always_ff @( posedge aclk or negedge aresetn) begin : __arid_wr_ptr
+            if(!aresetn)
+                arid_wr_ptr <= 'b0;
+            else if(in_arvalid && in_arready)
+                arid_wr_ptr <= arlen_wr_ptr+1;
+            end
+        
+        always_ff @( posedge aclk or negedge aresetn) begin : __arid_ram
+            if(!aresetn)
+            for (integer i = 0; i < SLV_OSTDREQ_NUM; i = i + 1) begin
+                arid_ram[i] <= 'b0;
+                end
+            else if(in_arvalid && in_arready)
+                arid_ram[arlen_wr_ptr]<= in_arid;
+            end       
+        
 //output:>>>
 assign out_rvalid= (req_remain_cnt!=0);
 assign out_rlast= (rdata_cnt==arlen_now);
 assign out_rid=arid_now;//!!!!fixme !!!!未考虑交织！！！！
 assign out_bvalid= (rsp_remain_cnt!=0);
 assign out_bid=bid_now;//!!!!fixme !!!!未考虑交织！！！！
+
+always @( posedge aclk or negedge aresetn) begin : __wdata//!!!fix me!!!can't syn 考虑prbs
+    if(!aresetn)
+        out_rdata=#1 'b0;
+    else if(out_rvalid && in_rready)
+        out_rdata=#1 $random;    
+end
 
 always_ff @( posedge aclk or negedge aresetn) begin : __out_awready
     if(!aresetn)
@@ -199,6 +254,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __out_wready
     else 
         out_wready<= $random;//!!!!fixme !!!!完全随机！！！！
     end
+
 //<<<
 
 endmodule

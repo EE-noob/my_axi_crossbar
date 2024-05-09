@@ -731,6 +731,7 @@ case (mst_id)
         mst0_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst0_awburst='b0;
         mst0_awvalid='b0;
+        mst0_awlock=2'b10;//默认赋值
     end 
     2'b10:
     begin
@@ -739,6 +740,7 @@ case (mst_id)
         mst1_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst1_awburst='b0;
         mst1_awvalid='b0;
+        mst1_awlock=2'b10;//默认赋值
     end 
     2'b11:
     begin
@@ -747,6 +749,7 @@ case (mst_id)
         mst2_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst2_awburst='b0;
         mst2_awvalid='b0;
+        mst2_awlock=2'b10;//默认赋值
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -767,6 +770,8 @@ case (mst_id)
         mst0_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst0_arburst='b0;
         mst0_arvalid='b0;
+        mst0_arlock=2'b10;//默认赋值
+
     end 
     2'b10:
     begin
@@ -775,6 +780,7 @@ case (mst_id)
         mst1_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst1_arburst='b0;
         mst1_arvalid='b0;
+        mst1_arlock=2'b10;//默认赋值
     end 
     2'b11:
     begin
@@ -783,6 +789,7 @@ case (mst_id)
         mst2_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst2_arburst='b0;
         mst2_arvalid='b0;
+        mst2_arlock=2'b10;//默认赋值
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -960,6 +967,10 @@ initial begin
     aw_req_clr(`MST0);
     aw_req_clr(`MST1);
     aw_req_clr(`MST2);
+
+    ar_req_clr(`MST0);
+    ar_req_clr(`MST1);
+    ar_req_clr(`MST2);
     //@(negedge aclk);
 
     @(negedge aclk);
