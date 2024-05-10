@@ -48,7 +48,7 @@ module axi_crossbar_pipeline#(parameter DATA_BUS_W = 16,
             logic [DATA_BUS_W - 1 : 0] pipe_data;
 
             axi_crossbar_pipeline#(.DATA_BUS_W(DATA_BUS_W),
-                                   .PIPELINE_NB(PIPELINE_NB))
+                                   .PIPELINE_NB(1))
                             pipe_n(.aclk(aclk), 
                                    .aresetn(aresetn), 
                                    .srst(srst), 
