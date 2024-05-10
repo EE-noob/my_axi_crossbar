@@ -54,10 +54,10 @@ module axi_crossbar_pipeline#(parameter DATA_BUS_W = 16,
                                    .srst(srst), 
                                    .i_valid(i_valid), 
                                    .i_data(i_data), 
-                                   .o_ready(o_ready),
+                                   .o_ready(pipe_ready),
                                    .o_valid(pipe_valid), 
                                    .o_data(pipe_data), 
-                                   .i_ready(pipe_ready));
+                                   .i_ready(i_ready));
 
             axi_crossbar_pipeline#(.DATA_BUS_W(DATA_BUS_W),
                                    .PIPELINE_NB(PIPELINE_NB - 1))
@@ -66,10 +66,10 @@ module axi_crossbar_pipeline#(parameter DATA_BUS_W = 16,
                                    .srst(srst), 
                                    .i_valid(pipe_valid), 
                                    .i_data(pipe_data), 
-                                   .o_ready(pipe_ready),
+                                   .o_ready(o_ready),
                                    .o_valid(o_valid), 
                                    .o_data(o_data), 
-                                   .i_ready(i_ready));
+                                   .i_ready(pipe_ready));
         end
     endgenerate
 

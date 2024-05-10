@@ -133,6 +133,7 @@ module axi_crossbar_mst_switch#(
     logic [SLV_NB - 1 : 0] cam_target_in;
     logic [SLV_NB - 1 : 0] cam_match_target;
     logic cam_match_valid;
+    logic cam_locked;
 
     logic                  bch_error_full;
     logic                  bch_error_empty;
@@ -416,22 +417,24 @@ module axi_crossbar_mst_switch#(
      .match_valid(cam_match_valid),
      .write_busy(cam_write_busy));
 
-    //匹配到了根据cam_match_target转发
-    assign o_wvalid[0] = (cam_match_valid & cam_match & cam_match_target[0]) ? i_wvalid : 1'b0;
-    assign o_wvalid[1] = (cam_match_valid & cam_match & cam_match_target[1]) ? i_wvalid : 1'b0;
-    assign o_wvalid[2] = (cam_match_valid & cam_match & cam_match_target[2]) ? i_wvalid : 1'b0;
+    // assign cam_locked = cam_write_busy | cam_write_delete;
 
-    assign i_wready = (cam_match_valid & cam_match & cam_match_target[0]) ? o_wready[0] :
-                      (cam_match_valid & cam_match & cam_match_target[1]) ? o_wready[1] :
-                      (cam_match_valid & cam_match & cam_match_target[2]) ? o_wready[2] :
+    //匹配到了根据cam_match_target转发
+    assign o_wvalid[0] = (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[0]) ? i_wvalid : 1'b0;
+    assign o_wvalid[1] = (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[1]) ? i_wvalid : 1'b0;
+    assign o_wvalid[2] = (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[2]) ? i_wvalid : 1'b0;
+
+    assign i_wready = (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[0]) ? o_wready[0] :
+                      (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[1]) ? o_wready[1] :
+                      (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[2]) ? o_wready[2] :
                       // 若没有匹配到，则可以确定是特殊情况吗misroute或者4K边界处理，则返回1’1；
                       // 否则需要继续等待，暂时先返回1'b0
-                      (cam_match_valid & ~cam_match                     ) ? 1'b1 :
+                      (!cam_write_busy & cam_match_valid & ~cam_match                     ) ? 1'b1 :
                                                                             1'b0;
     
-    assign o_wlast[0] = (cam_match_valid & cam_match & cam_match_target[0]) ? i_wlast : 1'b0;
-    assign o_wlast[1] = (cam_match_valid & cam_match & cam_match_target[1]) ? i_wlast : 1'b0;
-    assign o_wlast[2] = (cam_match_valid & cam_match & cam_match_target[2]) ? i_wlast : 1'b0;
+    assign o_wlast[0] = (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[0]) ? i_wlast : 1'b0;
+    assign o_wlast[1] = (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[1]) ? i_wlast : 1'b0;
+    assign o_wlast[2] = (!cam_write_busy & cam_match_valid & cam_match & cam_match_target[2]) ? i_wlast : 1'b0;
 
     assign o_wch = i_wch;
 

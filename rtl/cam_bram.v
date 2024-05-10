@@ -269,7 +269,7 @@ module cam_bram#(parameter DATA_WIDTH = 4,
         end else begin
             case(compare_data_reg[2 +: 2])
                 'h1: begin
-                    case(compare_data_reg[2 +: 2])
+                    case(compare_data_reg[0 +: 2])
                         'h0:begin
                             compare_addr_ex <= 'h0;
                         end
