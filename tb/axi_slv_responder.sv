@@ -168,7 +168,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
     always_ff @( posedge aclk or negedge aresetn) begin : __bid_wr_ptr
         if(!aresetn)
             bid_wr_ptr <= 'b0;
-        else if(in_wlast)
+        else if(in_wlast && in_wvalid && out_wready)
             bid_wr_ptr <= bid_wr_ptr+1;
         end
     always_ff @( posedge aclk or negedge aresetn) begin : __bid_ram
