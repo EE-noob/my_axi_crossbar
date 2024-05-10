@@ -63,19 +63,19 @@ parameter SLV2_OSTDREQ_SIZE = 8;
 parameter SLV2_PRIORITY = 0;
 
 // Channels' width (concatenated)
-parameter AWCH_W = 49;
-parameter WCH_W  = 43;
-parameter BCH_W  = 8;
-parameter ARCH_W = 49;
-parameter RCH_W  = 41;    
+parameter AWCH_W = 47;  //2+2+3+4+4+32
+parameter WCH_W  = 40;  //4+32+4
+parameter BCH_W  = 6;   //2+4
+parameter ARCH_W = 47;  //2+2+3+4+4+32
+parameter RCH_W  = 38;  //32+2+4   
 //CAM parameters
 parameter CAM_ADDR_WIDTH = 4  ;
 
 //para<<<
 //vari>>>
 integer  err_count;
-integer  wr_req_id;
-integer  rd_req_id;
+logic [1:0]  wr_req_id;
+logic [1:0]  rd_req_id;
 integer  wr_rsp_success_cnt;
 integer  rd_rsp_success_cnt;
 //<<<
@@ -872,7 +872,7 @@ case (mst_id)
         mst0_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
-        mst0_awid={mst_id,req_id};
+        mst0_awid={2'b00,req_id};
         $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen);
     end 
     2'b10:
@@ -882,7 +882,7 @@ case (mst_id)
         mst1_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst1_awburst=`INCR;
         mst1_awvalid=1'b1;
-        mst1_awid={mst_id,req_id};
+        mst1_awid={2'b00,req_id};
         $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen);
     end 
     2'b11:
@@ -892,7 +892,7 @@ case (mst_id)
         mst2_awsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst2_awburst=`INCR;
         mst2_awvalid=1'b1;
-        mst2_awid={mst_id,req_id};
+        mst2_awid={2'b00,req_id};
         $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen);
     end 
     default: $display("error!!! 主机掩码不能为零!");
@@ -931,7 +931,7 @@ case (mst_id)
         mst0_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst0_arburst=`INCR;
         mst0_arvalid=1'b1;
-        mst0_arid={mst_id,req_id};
+        mst0_arid={2'b00,req_id};
         $display("read from addr 0x%h,len=0d%d", araddr,mst0_arlen);
     end 
     2'b10:
@@ -941,7 +941,7 @@ case (mst_id)
         mst1_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst1_arburst=`INCR;
         mst1_arvalid=1'b1;
-        mst1_arid={mst_id,req_id};
+        mst1_arid={2'b00,req_id};
         $display("read from addr 0x%h,len=0d%d", araddr,mst1_arlen);
     end 
     2'b11:
@@ -951,7 +951,7 @@ case (mst_id)
         mst2_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst2_arburst=`INCR;
         mst2_arvalid=1'b1;
-        mst2_arid={mst_id,req_id};
+        mst2_arid={2'b00,req_id};
         $display("read from addr 0x%h,len=0d%d", araddr,mst2_arlen);
     end 
     default: $display("error!!! 主机掩码不能为零!");
@@ -1081,9 +1081,9 @@ end
     //       wr_rsp_success_cnt<=err_count -1;
     //     end
     //   end
-initial begin
-  if(err_count==0)
-    Finish();
-end
+// initial begin
+//   if(err_count==0)
+//     Finish();
+// end
 //<<<
 endmodule
