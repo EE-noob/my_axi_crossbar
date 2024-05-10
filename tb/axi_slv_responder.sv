@@ -78,12 +78,12 @@ module axi_slv_responder #(
 //     queue [4-1:0]awlen_que[$];
 
 //distributed ram
-    logic  [2**AXI_ID_W-1:0]bresp_ram[2-1:0];
-    logic  [2**AXI_ID_W-1:0]bid_ram[4-1:0];
+    logic  [2-1:0]bresp_ram[2**AXI_ID_W-1:0];
+    logic  [4-1:0]bid_ram[2**AXI_ID_W-1:0];
 
 
-    logic  [SLV_OSTDREQ_NUM-1:0]arlen_ram[4-1:0];
-    logic  [SLV_OSTDREQ_NUM-1:0]arid_ram[4-1:0];
+    logic  [4-1:0]arlen_ram[SLV_OSTDREQ_NUM-1:0];
+    logic  [4-1:0]arid_ram[SLV_OSTDREQ_NUM-1:0];
 
     //<<<
 

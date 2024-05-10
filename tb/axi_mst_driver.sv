@@ -83,8 +83,8 @@ module axi_mst_driver #(
 
 //distributed ram
 
-    logic  [MST_OSTDREQ_NUM-1:0]awlen_ram[4-1:0];
-    logic  [MST_OSTDREQ_NUM-1:0]awid_ram[4-1:0];
+    logic  [4-1:0]awlen_ram[MST_OSTDREQ_NUM-1:0];
+    logic  [4-1:0]awid_ram[MST_OSTDREQ_NUM-1:0];
     //<<<
 
 
