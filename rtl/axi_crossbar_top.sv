@@ -55,11 +55,11 @@ module axi_crossbar_top#(
     parameter SLV2_PRIORITY = 0,
 
     // Channels' width (concatenated)
-    parameter AWCH_W = 49,
-    parameter WCH_W  = 43,
-    parameter BCH_W  = 8,
-    parameter ARCH_W = 49,
-    parameter RCH_W  = 41,    
+    parameter AWCH_W = 47,  //2+2+3+4+4+32
+    parameter WCH_W  = 40,  //4+32+4
+    parameter BCH_W  = 6,   //2+4
+    parameter ARCH_W = 47,  //2+2+3+4+4+32
+    parameter RCH_W  = 38,  //32+2+4    
     
     //CAM parameters
     parameter CAM_ADDR_WIDTH = 4    

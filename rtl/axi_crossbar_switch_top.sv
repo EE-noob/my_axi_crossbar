@@ -9,6 +9,7 @@ module axi_crossbar_switch_top#(
     parameter SLV_NB = 3,
     parameter MST_NB = 3,
     parameter MST_PIPELINE = 1,
+    parameter MST_W_PIPELINE = MST_PIPELINE + 6,
     parameter SLV_PIPELINE = 1,
 
     parameter [MST_NB * SLV_NB - 1 : 0] MST_ROUTES = 9'h1ff,
@@ -189,7 +190,7 @@ module axi_crossbar_switch_top#(
                                .i_ready     (i_awready[i]));
         
         axi_crossbar_pipeline#(.DATA_BUS_W  (WCH_W + 1),
-                               .PIPELINE_NB (MST_PIPELINE))
+                               .PIPELINE_NB (MST_W_PIPELINE))
               wch_mst_pipeline(.aclk        (aclk), 
                                .aresetn     (aresetn), 
                                .srst        (srst), 
