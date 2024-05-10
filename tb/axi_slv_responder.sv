@@ -26,7 +26,7 @@ module axi_slv_responder #(
     //input logic o_wvalid,
     output  logic  out_wready,
     input logic in_wlast,
-    // input logic [AXI_ID_W   - 1 : 0] o_wid,
+    input logic [AXI_ID_W   - 1 : 0] in_wid,
     // input logic [AXI_DATA_W - 1 : 0] o_wdata,
     // input logic [4          - 1 : 0] o_wstrb,
     //B Channel
@@ -156,7 +156,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
         bresp_ram[i] <= 'b0;
       end
     else if(in_wlast)
-        bresp_ram[bresp_wr_ptr]<= 2'b00;//均默认接收正常
+        bresp_ram[bresp_wr_ptr]<= in_wid;
     end
     
     always_ff @( posedge aclk or negedge aresetn) begin : __bid_rd_ptr
@@ -234,7 +234,7 @@ assign out_rlast= (rdata_cnt==arlen_now) && out_rvalid;
 assign out_rid=arid_now;//!!!!fixme !!!!未考虑交织！！！！
 assign out_bvalid= (rsp_remain_cnt!=0);
 assign out_bid=bid_now;//!!!!fixme !!!!未考虑交织！！！！
-
+assign out_bresp=bresp_now;
 always @( posedge aclk or negedge aresetn) begin : __rdata//!!!fix me!!!can't syn 考虑prbs
     if(!aresetn)
         out_rdata=#1 'b0;
