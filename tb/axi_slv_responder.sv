@@ -23,7 +23,7 @@ module axi_slv_responder #(
     output  logic  out_awready,
 
     //W Channel
-    //input logic o_wvalid,
+    input logic in_wvalid,
     output  logic  out_wready,
     input logic in_wlast,
     input logic [AXI_ID_W   - 1 : 0] in_wid,
@@ -176,7 +176,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
         for (integer i = 0; i < 2**AXI_ID_W; i = i + 1) begin
             bid_ram[i] <= 'b0;
           end
-        else if(in_wlast)
+        else if(in_wlast && in_wvalid && out_wready)
             bid_ram[bid_wr_ptr]<= in_wid;
         end
 
