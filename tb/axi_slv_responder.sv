@@ -156,7 +156,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
         bresp_ram[i] <= 'b0;
       end
     else if(in_wlast)
-        bresp_ram[bresp_wr_ptr]<= in_wid;
+        bresp_ram[bresp_wr_ptr]<= 2'b00;//均默认接收正常
     end
     
     always_ff @( posedge aclk or negedge aresetn) begin : __bid_rd_ptr
@@ -177,7 +177,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
             bid_ram[i] <= 'b0;
           end
         else if(in_wlast)
-            bid_ram[bid_wr_ptr]<= 2'b00;//均默认接收正常
+            bid_ram[bid_wr_ptr]<= in_wid;
         end
 
 
