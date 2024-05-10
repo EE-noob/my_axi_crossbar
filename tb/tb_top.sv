@@ -1055,22 +1055,22 @@ end
 
 //rcv rsp
 
-always_ff @( posedge aclk or negedge aresetn ) begin : __err_count
-  if(!aresetn)
-    err_count<=testnum;
-  else if(mst0_bready && mst0_bvalid)
-    err_count<=err_count -1;
-  end
+// always_ff @( posedge aclk or negedge aresetn ) begin : __err_count
+//   if(!aresetn)
+//     err_count<=testnum;
+//   else if(mst0_bready && mst0_bvalid)
+//     err_count<=err_count -1;
+//   end
 
-  // always_ff @( posedge aclk or negedge aresetn ) begin : __wr_rsp_success_cnt
-  //   if(!aresetn)
-  //     wr_rsp_success_cnt<=testnum;
-  //   else if(mst0_bready && mst0_bvalid)
-  //     begin
-  //       $display("number %d wr_rsp recived successfully!!!",testnum-wr_rsp_success_cnt);
-  //       wr_rsp_success_cnt<=wr_rsp_success_cnt -1;
-  //     end
-  //   end
+  always_ff @( posedge aclk or negedge aresetn ) begin : __wr_rsp_success_cnt
+    if(!aresetn)
+      wr_rsp_success_cnt<=testnum;
+    else if(mst0_bready && mst0_bvalid)
+      begin
+        $display("number %d wr_rsp recived successfully!!!",testnum-wr_rsp_success_cnt);
+        wr_rsp_success_cnt<=wr_rsp_success_cnt -1;
+      end
+    end
 
     // always_ff @( posedge aclk or negedge aresetn ) begin : __rd_rsp_success_cnt
     //   if(!aresetn)
