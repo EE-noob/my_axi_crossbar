@@ -1070,7 +1070,7 @@ end
       wr_rsp_success_cnt<=testnum;
     else if(mst0_bready && mst0_bvalid)
       begin
-        $display("number %d wr_rsp recived successfully!!!",testnum-wr_rsp_success_cnt);
+        //$display("number %d wr_rsp recived successfully!!!",testnum-wr_rsp_success_cnt);
         wr_rsp_success_cnt<=wr_rsp_success_cnt -1;
       end
     end
