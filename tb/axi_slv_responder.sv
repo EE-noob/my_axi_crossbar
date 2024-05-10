@@ -230,7 +230,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
         
 //output:>>>
 assign out_rvalid= (req_remain_cnt!=0);
-assign out_rlast= (rdata_cnt==arlen_now);
+assign out_rlast= (rdata_cnt==arlen_now) && out_rvalid;
 assign out_rid=arid_now;//!!!!fixme !!!!未考虑交织！！！！
 assign out_bvalid= (rsp_remain_cnt!=0);
 assign out_bid=bid_now;//!!!!fixme !!!!未考虑交织！！！！
