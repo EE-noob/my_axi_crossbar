@@ -70,5 +70,8 @@ dir:
 gitp4:
 	git add ../*;git commit -m "$(nm)";git push jcs master;
 
+gitxm:
+	cd ../tb;git add .;git commit -m "$(nm)";git push tb master;cd ../sim;
+
 gitpl:
 	git fetch jcs;git merge  master jcs/master
