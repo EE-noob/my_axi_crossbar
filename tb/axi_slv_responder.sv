@@ -107,7 +107,7 @@ module axi_slv_responder #(
             rsp_remain_cnt<=rsp_remain_cnt;
         else if(out_bvalid && in_bready)
             rsp_remain_cnt<=rsp_remain_cnt-1;
-        else if(in_wlast)
+        else if(in_wlast && in_wvalid && out_wready)
             rsp_remain_cnt<=rsp_remain_cnt+1; 
         
     end
