@@ -103,7 +103,7 @@ module axi_slv_responder #(
     always_ff @( posedge aclk or negedge aresetn) begin : __rsp_remain_cnt
         if(!aresetn)
             rsp_remain_cnt<=0;
-        else if(in_wlast && out_bvalid && in_bready)
+        else if( (in_wlast && in_wvalid && out_wready) && (out_bvalid && in_bready))
             rsp_remain_cnt<=rsp_remain_cnt;
         else if(out_bvalid && in_bready)
             rsp_remain_cnt<=rsp_remain_cnt-1;
