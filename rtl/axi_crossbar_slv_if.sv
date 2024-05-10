@@ -139,7 +139,7 @@ module axi_crossbar_slv_if#(
 
     //AW Channel Async FIFO
     Async_FIFO #(.DATA_WIDTH(AWCH_W),
-                 .ADDR_ASIZE(AW_ASIZE)) 
+                 .ADDR_SIZE(AW_ASIZE)) 
         aw_async_fifo
                 (.wr_clk(i_aclk), 
                  .wr_rstn(i_aresetn), 
@@ -160,7 +160,7 @@ module axi_crossbar_slv_if#(
 
     //W Channel Async FIFO
     Async_FIFO #(.DATA_WIDTH(WCH_W + 1),
-                 .ADDR_ASIZE(W_ASIZE)) 
+                 .ADDR_SIZE(W_ASIZE)) 
         w_async_fifo
                 (.wr_clk(i_aclk), 
                  .wr_rstn(i_aresetn), 
@@ -181,7 +181,7 @@ module axi_crossbar_slv_if#(
 
      //B Channel Async FIFO
     Async_FIFO #(.DATA_WIDTH(BCH_W),
-                 .ADDR_ASIZE(B_ASIZE)) 
+                 .ADDR_SIZE(B_ASIZE)) 
         b_async_fifo
                 (.wr_clk(o_aclk), 
                  .wr_rstn(o_aresetn), 
@@ -202,7 +202,7 @@ module axi_crossbar_slv_if#(
 
     //AR Channel Async FIFO
     Async_FIFO #(.DATA_WIDTH(ARCH_W),
-                 .ADDR_ASIZE(AR_ASIZE)) 
+                 .ADDR_SIZE(AR_ASIZE)) 
         ar_async_fifo
                 (.wr_clk(i_aclk), 
                  .wr_rstn(i_aresetn), 
@@ -222,8 +222,8 @@ module axi_crossbar_slv_if#(
     assign ar_rden = o_arready & (~ar_empty);
 
     //AR Channel Async FIFO
-    Async_FIFO #(.DATA_WIDTH(RCH_W),
-                 .ADDR_ASIZE(R_ASIZE)) 
+    Async_FIFO #(.DATA_WIDTH(RCH_W + 1),
+                 .ADDR_SIZE(R_ASIZE)) 
         r_async_fifo
                 (.wr_clk(o_aclk), 
                  .wr_rstn(o_aresetn), 

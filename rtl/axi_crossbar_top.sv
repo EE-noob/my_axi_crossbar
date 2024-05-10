@@ -345,7 +345,7 @@ module axi_crossbar_top#(
         .BCH_W             (BCH_W),
         .ARCH_W            (ARCH_W),
         .RCH_W             (RCH_W),
-        .MST0_ID_MASK      (MST0_ID_MASK)
+        .MST_ID_MASK       (MST0_ID_MASK)
     )
         mst0_if(
         .i_aclk       (mst0_aclk),
@@ -421,7 +421,7 @@ module axi_crossbar_top#(
         .BCH_W             (BCH_W),
         .ARCH_W            (ARCH_W),
         .RCH_W             (RCH_W),
-        .MST1_ID_MASK      (MST1_ID_MASK)
+        .MST_ID_MASK       (MST1_ID_MASK)
     )
         mst1_if(
         .i_aclk       (mst1_aclk),
@@ -497,7 +497,7 @@ module axi_crossbar_top#(
         .BCH_W             (BCH_W),
         .ARCH_W            (ARCH_W),
         .RCH_W             (RCH_W),
-        .MST2_ID_MASK      (MST2_ID_MASK)
+        .MST_ID_MASK       (MST2_ID_MASK)
     )
         mst2_if(
         .i_aclk       (mst2_aclk),

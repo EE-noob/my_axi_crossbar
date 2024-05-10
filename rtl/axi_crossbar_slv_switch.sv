@@ -114,6 +114,9 @@ module axi_crossbar_slv_switch#(
     
     assign i_awready = awch_grant & {MST_NB{o_awready }};
 
+    
+    assign awch_en = o_awvalid & o_awready;
+
     assign o_awch = (awch_grant[0]) ? i_awch[0*AWCH_W+:AWCH_W] :
                     (awch_grant[1]) ? i_awch[1*AWCH_W+:AWCH_W] :
                     (awch_grant[2]) ? i_awch[2*AWCH_W+:AWCH_W] :

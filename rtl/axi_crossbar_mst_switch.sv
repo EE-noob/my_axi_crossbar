@@ -112,6 +112,7 @@ module axi_crossbar_mst_switch#(
     logic [AXI_ADDR_W-1:0] end_awaddr;
 
     logic                  i_awready_reg;
+    logic [SLV_NB    -1:0] o_awvalid_reg;          
     logic [AXI_ID_W  -1:0] aw_id_reg;
 
     //wch round robin signal
@@ -151,6 +152,8 @@ module axi_crossbar_mst_switch#(
     logic [AXI_ADDR_W-1:0] end_araddr;
 
     logic                  i_arready_reg;
+    logic [SLV_NB    -1:0] o_arvalid_reg;     
+    logic [AXI_ID_W  -1:0] cam_arid;     
     logic [AXI_ID_W  -1:0] ar_id_reg;
 
     logic                  rch_en;
@@ -241,10 +244,64 @@ module axi_crossbar_mst_switch#(
         end
     end
 
-    //o_awvalid信号的传递
-    assign o_awvalid[0] = (slv_aw_targeted[0]) ? i_awvalid : 1'b0;
-    assign o_awvalid[1] = (slv_aw_targeted[1]) ? i_awvalid : 1'b0;
-    assign o_awvalid[2] = (slv_aw_targeted[2]) ? i_awvalid : 1'b0;
+    // // //o_awvalid信号的传递
+    // // assign o_awvalid[0] = (slv_aw_targeted[0]) ? i_awvalid : 1'b0;
+    // // assign o_awvalid[1] = (slv_aw_targeted[1]) ? i_awvalid : 1'b0;
+    // // assign o_awvalid[2] = (slv_aw_targeted[2]) ? i_awvalid : 1'b0;
+    // //i_awready延迟一个周期传递，对应的o_awvalid也应该延迟一个周期再传递
+    // always @(posedge aclk or negedge aresetn) begin
+    //     if(!aresetn) begin
+    //         o_awvalid_reg[0] <= 'b0;
+    //         o_awvalid_reg[1] <= 'b0;
+    //         o_awvalid_reg[2] <= 'b0;
+    //     end else if(srst) begin
+    //         o_awvalid_reg[0] <= 'b0;
+    //         o_awvalid_reg[1] <= 'b0;
+    //         o_awvalid_reg[2] <= 'b0;
+    //     end else if(aw_id_reg != cam_awid) begin
+    //         o_awvalid_reg[0] <= 'b0;
+    //         o_awvalid_reg[1] <= 'b0;
+    //         o_awvalid_reg[2] <= 'b0;
+    //     end else if(aw_cross_4k_boundary | w_misrouting) begin
+    //         o_awvalid_reg[0] <= 'b0;
+    //         o_awvalid_reg[1] <= 'b0;
+    //         o_awvalid_reg[2] <= 'b0;
+    //     end else if(slv_aw_targeted[0]) begin
+    //         o_awvalid_reg[0] <= i_awvalid;
+    //         o_awvalid_reg[1] <= 'b0;
+    //         o_awvalid_reg[2] <= 'b0;
+    //     end else if(slv_aw_targeted[1]) begin
+    //         o_awvalid_reg[0] <= 'b0;
+    //         o_awvalid_reg[1] <= i_awvalid;
+    //         o_awvalid_reg[2] <= 'b0;
+    //     end else if(slv_aw_targeted[2]) begin
+    //         o_awvalid_reg[0] <= 'b0;
+    //         o_awvalid_reg[1] <= 'b0;
+    //         o_awvalid_reg[2] <= i_awvalid;
+    //     end else begin
+    //         o_awvalid_reg[0] <= 'b0;
+    //         o_awvalid_reg[1] <= 'b0;
+    //         o_awvalid_reg[2] <= 'b0;            
+    //     end
+    // end
+
+    // assign o_awvalid = o_awvalid_reg;
+    assign o_awvalid[0] = (aw_id_reg != cam_awid) ? 1'b0     : 
+                          (aw_cross_4k_boundary)  ? 1'b0     :
+                          (w_misrouting)          ? 1'b0     :
+                          (slv_aw_targeted[0])    ? i_awvalid:
+                                                    1'b0;
+    assign o_awvalid[1] = (aw_id_reg != cam_awid) ? 1'b0     : 
+                          (aw_cross_4k_boundary)  ? 1'b0     :
+                          (w_misrouting)          ? 1'b0     :
+                          (slv_aw_targeted[1])    ? i_awvalid:
+                                                    1'b0;     
+
+    assign o_awvalid[2] = (aw_id_reg != cam_awid) ? 1'b0     : 
+                          (aw_cross_4k_boundary)  ? 1'b0     :
+                          (w_misrouting)          ? 1'b0     :
+                          (slv_aw_targeted[2])    ? i_awvalid:
+                                                    1'b0; 
 
     //4K边界处理方式应该和misroute相同
     //由于aw_cross_4K_boundary需要再AW指令改变后的下一个周期才会发生改变，因此对于i_awready也需要等待一个周期
@@ -253,36 +310,48 @@ module axi_crossbar_mst_switch#(
             aw_id_reg <= 'b0;
         end else if(srst) begin
             aw_id_reg <= 'b0;
-        end else begin
+        end else if(i_awvalid)begin 
             aw_id_reg <= cam_awid;
+        end else begin
+            aw_id_reg <= aw_id_reg;
         end
     end
 
     //i_awready信号的产生处理
     //此处默认Response Channel内FIFO不会满，下一个周期一定出结果
-    always @(posedge aclk or negedge aresetn) begin
-        if(!aresetn) begin
-            i_awready_reg <= 'b0;
-        end else if (srst) begin
-            i_awready_reg <= 'b0;
-        end else if (aw_id_reg != cam_awid) begin
-            i_awready_reg <= 'b0;
-        end else if (aw_cross_4k_boundary) begin
-            i_awready_reg <= 'b1;
-        end else if(w_misrouting) begin
-            i_awready_reg <= 'b1;
-        end else if(slv_aw_targeted[0]) begin
-            i_awready_reg <= o_awready[0];
-        end else if(slv_aw_targeted[1]) begin
-            i_awready_reg <= o_awready[1];
-        end else if(slv_aw_targeted[2]) begin
-            i_awready_reg <= o_awready[2];
-        end else begin
-            i_awready_reg <= 'b0;
-        end
-    end
+    // always @(posedge aclk or negedge aresetn) begin
+    //     if(!aresetn) begin
+    //         i_awready_reg <= 'b0;
+    //     end else if (srst) begin
+    //         i_awready_reg <= 'b0;
+    //     end else if (aw_id_reg != cam_awid) begin
+    //         i_awready_reg <= 'b0;
+    //     end else if (aw_cross_4k_boundary) begin
+    //         i_awready_reg <= 'b1;
+    //     end else if(w_misrouting) begin
+    //         i_awready_reg <= 'b1;
+    //     end else if(slv_aw_targeted[0]) begin
+    //         i_awready_reg <= o_awready[0];
+    //     end else if(slv_aw_targeted[1]) begin
+    //         i_awready_reg <= o_awready[1];
+    //     end else if(slv_aw_targeted[2]) begin
+    //         i_awready_reg <= o_awready[2];
+    //     end else begin
+    //         i_awready_reg <= 'b0;
+    //     end
+    // end
                                       
-    assign i_awready = i_awready_reg;
+    // assign i_awready = i_awready_reg;
+    assign i_awready =    (aw_id_reg != cam_awid) ? 1'b0        : 
+                          (aw_cross_4k_boundary)  ? 1'b1        :
+                          (w_misrouting)          ? 1'b1        :
+                          (slv_aw_targeted[0])    ? o_awready[0]:                          
+                          (slv_aw_targeted[1])    ? o_awready[1]:                          
+                          (slv_aw_targeted[2])    ? o_awready[2]:
+                                                    1'b0;
+
+
+
 
     //o_awch信号的传递
     assign o_awch = i_awch;
@@ -331,9 +400,9 @@ module axi_crossbar_mst_switch#(
     assign cam_write_delete = i_wvalid & i_wready & i_wlast;
 
     cam_bram
-    #(.CAM_DATA_WIDTH(AXI_ID_W), 
+    #(.DATA_WIDTH(AXI_ID_W), 
       .CAM_TARGET_WIDTH(SLV_NB),
-      .CAM_ADDR_WIDTH(CAM_ADDR_WIDTH))
+      .ADDR_WIDTH(CAM_ADDR_WIDTH))
     mst_switch_wch_cam
     (.clk(aclk), 
      .rstn(aresetn),
@@ -408,7 +477,6 @@ module axi_crossbar_mst_switch#(
                    (bch_grant[0])  ? o_bch[0*BCH_W+:BCH_W] :
                    (bch_grant[1])  ? o_bch[1*BCH_W+:BCH_W] :
                    (bch_grant[2])  ? o_bch[2*BCH_W+:BCH_W] :
-                   (bch_grant[3])  ? o_bch[3*BCH_W+:BCH_W] :
                                      {BCH_W{1'b0}};
 
     //////////////////////////////////////
@@ -495,35 +563,97 @@ module axi_crossbar_mst_switch#(
     end
 
         //此处默认Read Channel内FIFO不会满，下一个周期一定出结果
-    always @(posedge aclk or negedge aresetn) begin
-        if(!aresetn) begin
-            i_arready_reg <= 'b0;
-        end else if (srst) begin
-            i_arready_reg <= 'b0;
-        end else if (ar_id_reg != i_arch[AXI_ADDR_W +:AXI_ID_W]) begin
-            i_arready_reg <= 'b0;
-        end else if (ar_cross_4k_boundary) begin
-            i_arready_reg <= 'b1;
-        end else if(r_misrouting) begin
-            i_arready_reg <= 'b1;
-        end else if(slv_ar_targeted[0]) begin
-            i_arready_reg <= o_arready[0];
-        end else if(slv_ar_targeted[1]) begin
-            i_arready_reg <= o_arready[1];
-        end else if(slv_ar_targeted[2]) begin
-            i_arready_reg <= o_arready[2];
-        end else begin
-            i_arready_reg <= 'b0;
-        end
-    end
+    // always @(posedge aclk or negedge aresetn) begin
+    //     if(!aresetn) begin
+    //         i_arready_reg <= 'b0;
+    //     end else if (srst) begin
+    //         i_arready_reg <= 'b0;
+    //     end else if (ar_id_reg != i_arch[AXI_ADDR_W +:AXI_ID_W]) begin
+    //         i_arready_reg <= 'b0;
+    //     end else if (ar_cross_4k_boundary) begin
+    //         i_arready_reg <= 'b1;
+    //     end else if(r_misrouting) begin
+    //         i_arready_reg <= 'b1;
+    //     end else if(slv_ar_targeted[0]) begin
+    //         i_arready_reg <= o_arready[0];
+    //     end else if(slv_ar_targeted[1]) begin
+    //         i_arready_reg <= o_arready[1];
+    //     end else if(slv_ar_targeted[2]) begin
+    //         i_arready_reg <= o_arready[2];
+    //     end else begin
+    //         i_arready_reg <= 'b0;
+    //     end
+    // end
 
-    assign i_arready = i_arready_reg;
+    // assign i_arready = i_arready_reg;
+    assign cam_arid  = i_arch[AXI_ADDR_W +:AXI_ID_W];
+    assign i_arready =    (ar_id_reg != cam_arid) ? 1'b0        : 
+                          (ar_cross_4k_boundary)  ? 1'b1        :
+                          (r_misrouting)          ? 1'b1        :
+                          (slv_ar_targeted[0])    ? o_arready[0]:                          
+                          (slv_ar_targeted[1])    ? o_arready[1]:                          
+                          (slv_ar_targeted[2])    ? o_arready[2]:
+                                                    1'b0;
 
     assign o_arch = i_arch;
 
-    assign o_arvalid[0] = (slv_ar_targeted[0]) ? i_arvalid : 1'b0;
-    assign o_arvalid[1] = (slv_ar_targeted[1]) ? i_arvalid : 1'b0;
-    assign o_arvalid[2] = (slv_ar_targeted[2]) ? i_arvalid : 1'b0;
+    // assign o_arvalid[0] = (slv_ar_targeted[0]) ? i_arvalid : 1'b0;
+    // assign o_arvalid[1] = (slv_ar_targeted[1]) ? i_arvalid : 1'b0;
+    // assign o_arvalid[2] = (slv_ar_targeted[2]) ? i_arvalid : 1'b0;
+    //i_arready延迟一个周期传递，对应的o_arvalid也应该延迟一个周期再传递
+    // always @(posedge aclk or negedge aresetn) begin
+    //     if(!aresetn) begin
+    //         o_arvalid_reg[0] <= 'b0;
+    //         o_arvalid_reg[1] <= 'b0;
+    //         o_arvalid_reg[2] <= 'b0;
+    //     end else if(srst) begin
+    //         o_arvalid_reg[0] <= 'b0;
+    //         o_arvalid_reg[1] <= 'b0;
+    //         o_arvalid_reg[2] <= 'b0;
+    //     end else if(ar_id_reg != i_arch[AXI_ADDR_W +:AXI_ID_W]) begin
+    //         o_arvalid_reg[0] <= 'b0;
+    //         o_arvalid_reg[1] <= 'b0;
+    //         o_arvalid_reg[2] <= 'b0;
+    //     end else if(ar_cross_4k_boundary | r_misrouting) begin
+    //         o_arvalid_reg[0] <= 'b0;
+    //         o_arvalid_reg[1] <= 'b0;
+    //         o_arvalid_reg[2] <= 'b0;
+    //     end else if(slv_ar_targeted[0]) begin
+    //         o_arvalid_reg[0] <= i_arvalid;
+    //         o_arvalid_reg[1] <= 'b0;
+    //         o_arvalid_reg[2] <= 'b0;
+    //     end else if(slv_ar_targeted[1]) begin
+    //         o_arvalid_reg[0] <= 'b0;
+    //         o_arvalid_reg[1] <= i_arvalid;
+    //         o_arvalid_reg[2] <= 'b0;
+    //     end else if(slv_ar_targeted[2]) begin
+    //         o_arvalid_reg[0] <= 'b0;
+    //         o_arvalid_reg[1] <= 'b0;
+    //         o_arvalid_reg[2] <= i_arvalid;
+    //     end else begin
+    //         o_arvalid_reg[0] <= 'b0;
+    //         o_arvalid_reg[1] <= 'b0;
+    //         o_arvalid_reg[2] <= 'b0;            
+    //     end
+    // end
+
+    // assign o_arvalid = o_arvalid_reg;
+    assign o_arvalid[0] = (ar_id_reg != cam_arid) ? 1'b0     : 
+                          (ar_cross_4k_boundary)  ? 1'b0     :
+                          (r_misrouting)          ? 1'b0     :
+                          (slv_ar_targeted[0])    ? i_arvalid:
+                                                    1'b0;
+    assign o_arvalid[1] = (ar_id_reg != cam_arid) ? 1'b0     : 
+                          (ar_cross_4k_boundary)  ? 1'b0     :
+                          (r_misrouting)          ? 1'b0     :
+                          (slv_ar_targeted[1])    ? i_arvalid:
+                                                    1'b0;     
+
+    assign o_arvalid[2] = (ar_id_reg != cam_arid) ? 1'b0     : 
+                          (ar_cross_4k_boundary)  ? 1'b0     :
+                          (r_misrouting)          ? 1'b0     :
+                          (slv_ar_targeted[2])    ? i_arvalid:
+                                                    1'b0; 
 
 
     //////////////////////////////////////
