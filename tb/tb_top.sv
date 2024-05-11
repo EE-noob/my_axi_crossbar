@@ -580,6 +580,7 @@ axi_mst_driver # (
     .out_wid(mst0_wid),
     .out_wdata(mst0_wdata),
     .out_wstrb(mst0_wstrb),
+    .out_arready(mst0_arready),
     .out_bready(mst0_bready)
   );
 
@@ -610,6 +611,7 @@ axi_mst_driver # (
     .out_wid(mst1_wid),
     .out_wdata(mst1_wdata),
     .out_wstrb(mst1_wstrb),
+    .out_arready(mst1_arready),
     .out_bready(mst1_bready)
   );
 
@@ -640,7 +642,9 @@ axi_mst_driver # (
     .out_wid(mst2_wid),
     .out_wdata(mst2_wdata),
     .out_wstrb(mst2_wstrb),
+    .out_arready(mst2_arready),
     .out_bready(mst2_bready)
+    
   );
 //<<<
 

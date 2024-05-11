@@ -46,7 +46,7 @@ module axi_mst_driver #(
     // input logic [2          - 1 : 0] in_bresp,
     // AR channel
     // output  logic  out_arvalid,
-    // input logic out_arready,
+    output logic out_arready,
     // output  logic  [AXI_ADDR_W - 1 : 0] out_araddr,
     // output  logic  [4          - 1 : 0] out_arlen,
     // output  logic  [3          - 1 : 0] out_arsize,
@@ -208,6 +208,13 @@ always_ff @( posedge aclk or negedge aresetn) begin : __out_bready
             out_rready <= 'b0;
         else 
             out_rready<= $random;//!!!!fixme !!!!完全随机！！！！
+        end
+
+    always_ff @( posedge aclk or negedge aresetn) begin : __out_arready
+        if(!aresetn)
+            out_arready <= 'b0;
+        else 
+            out_arready<= $random;//!!!!fixme !!!!完全随机！！！！
         end
 //fix me!!! 未考虑窄带传输
 // always_ff @( negedge aclk or negedge aresetn) begin : __wstrb
