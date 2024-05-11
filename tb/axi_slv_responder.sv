@@ -39,7 +39,7 @@ module axi_slv_responder #(
 
     // //AR Channel
     input logic in_arvalid,
-    input  logic  in_arready,
+    output  logic  out_arready,
     // input logic [AXI_ADDR_W  - 1 : 0] o_araddr,
     input logic [4           - 1 : 0] in_arlen,
     // input logic [3           - 1 : 0] o_arsize,
@@ -115,9 +115,9 @@ module axi_slv_responder #(
 always_ff @( posedge aclk or negedge aresetn) begin : __req_remain_cnt
     if(!aresetn)
         req_remain_cnt<=0;
-    else if(in_arvalid && in_arready && out_rlast)
+    else if(in_arvalid && out_arready && out_rlast)
         req_remain_cnt<=req_remain_cnt;
-    else if(in_arvalid && in_arready)
+    else if(in_arvalid && out_arready)
         req_remain_cnt<=req_remain_cnt+1;
     else if(out_rlast)
         req_remain_cnt<=req_remain_cnt-1; 
@@ -192,7 +192,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
         always_ff @( posedge aclk or negedge aresetn) begin : __arlen_wr_ptr
             if(!aresetn)
                 arlen_wr_ptr <= 'b0;
-            else if(in_arvalid && in_arready)
+            else if(in_arvalid && out_arready)
                 arlen_wr_ptr <= arlen_wr_ptr+1;
             end
         
@@ -201,7 +201,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
             for (integer i = 0; i < SLV_OSTDREQ_NUM; i = i + 1) begin
                 arlen_ram[i] <= 'b0;
               end
-            else if(in_arvalid && in_arready)
+            else if(in_arvalid && out_arready)
                 arlen_ram[arlen_wr_ptr]<= in_arlen;
             end
             
@@ -215,7 +215,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
         always_ff @( posedge aclk or negedge aresetn) begin : __arid_wr_ptr
             if(!aresetn)
                 arid_wr_ptr <= 'b0;
-            else if(in_arvalid && in_arready)
+            else if(in_arvalid && out_arready)
                 arid_wr_ptr <= arlen_wr_ptr+1;
             end
         
@@ -224,7 +224,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram
             for (integer i = 0; i < SLV_OSTDREQ_NUM; i = i + 1) begin
                 arid_ram[i] <= 'b0;
                 end
-            else if(in_arvalid && in_arready)
+            else if(in_arvalid && out_arready)
                 arid_ram[arlen_wr_ptr]<= in_arid;
             end       
         
@@ -262,6 +262,12 @@ always_ff @( posedge aclk or negedge aresetn) begin : __out_wready
         out_wready<= $random;//!!!!fixme !!!!完全随机！！！！
     end
 
+always_ff @( posedge aclk or negedge aresetn) begin : __out_arready
+    if(!aresetn)
+        out_arready <= 'b0;
+    else 
+        out_arready<= $random;//!!!!fixme !!!!完全随机！！！！
+    end
 //<<<
 
 endmodule
