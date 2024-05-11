@@ -72,6 +72,7 @@ module axi_slv_responder #(
 //reg
     logic [2          - 1 : 0] bresp_now;
     logic [AXI_ID_W           - 1 : 0] bid_now;
+    logic [AXI_ID_W           - 1 : 0] arid_now;
     // logic   out_wlast_prev;
     // logic   out_wvalid_prev;
 // //queue 
