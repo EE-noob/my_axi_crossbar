@@ -482,6 +482,10 @@ module axi_crossbar_mst_switch#(
                    (bch_grant[2])  ? o_bch[2*BCH_W+:BCH_W] :
                                      {BCH_W{1'b0}};
 
+    assign o_bready[0] = bch_grant[0] & i_bready & bch_error_empty;
+    assign o_bready[1] = bch_grant[1] & i_bready & bch_error_empty;
+    assign o_bready[2] = bch_grant[2] & i_bready & bch_error_empty;
+
     //////////////////////////////////////
     //AR Channel
     /////////////////////////////////////
@@ -729,6 +733,7 @@ module axi_crossbar_mst_switch#(
     end
 
     assign rch_en = i_rvalid & i_rready & rch_running;
+    assign rch_req = o_rvalid;
 
     
     assign i_rvalid = (!rch_error_empty && !rch_running) ? 1'b1 :
