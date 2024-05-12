@@ -983,11 +983,11 @@ task aw_req(
     input [1:0] slv_id,
     input [1:0] req_id,
     input [1:0] awburst,
-    input [AXI_ADDR_W    -1:0]awaddr;
+    input awlen
 );  
 
 begin
-
+  logic [AXI_ADDR_W    -1:0]awaddr;
 case (slv_id)
 2'b01: 
 begin
