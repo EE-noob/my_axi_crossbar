@@ -1,5 +1,5 @@
 `include "macro.vh"
-module axi_mst_driver #(
+module axi_mst_narrow_driver #(
     parameter AXI_ADDR_W = 32,
     //主机输入ID宽度
     parameter AXI_ID_W  =4,
@@ -38,7 +38,6 @@ module axi_mst_driver #(
     output  logic  [AXI_ID_W   - 1 : 0] out_wid,
     output  logic  [AXI_DATA_W - 1 : 0] out_wdata,
     output  logic  [4          - 1 : 0] out_wstrb,
-    input  logic  narrow,
     //B channel
     // input logic in_bvalid,
     output  logic  out_bready,
@@ -78,7 +77,7 @@ module axi_mst_driver #(
     logic [4          - 1 : 0] awid_now;
     logic   out_wlast_prev;
     logic   out_wvalid_prev;
-    logic [32          - 1 : 0]  wstrb32;
+
 // //queue 
 //     queue [4-1:0]awlen_que[$];
 
@@ -195,7 +194,7 @@ always @( posedge aclk or negedge aresetn) begin : __wdata//!!!fix me!!!can't sy
     if(!aresetn)
         out_wdata=#1 'b0;
     else if(out_wvalid && in_wready)
-        out_wdata=#1 narrow? $random & wstrb32 :$random ;    
+        out_wdata=#1 {{28{1'b0}},$urandom_range(0, 15)};    
 end
 always_ff @( posedge aclk or negedge aresetn) begin : __out_bready
     if(!aresetn)
@@ -210,21 +209,14 @@ always_ff @( posedge aclk or negedge aresetn) begin : __out_bready
         else 
             out_rready<= $random;//!!!!fixme !!!!完全随机！！！！
         end
-always_comb begin : __out_wstrb
-    if(out_wvalid)
-    begin
-        if(narrow)
-        begin
-            out_wstrb='b0;
-            out_wstrb[wdata_cnt%4]=1;
-        end
-        else 
-            out_wstrb='b1;
-    end
-    else
-        out_wstrb='b0;
-end
-assign wstrb32={{8{out_wstrb[3]}},{8{out_wstrb[2]}},{8{out_wstrb[1]}},{8{out_wstrb[0]}}};
+//fix me!!! 未考虑窄带传输
+// always_ff @( negedge aclk or negedge aresetn) begin : __wstrb
+//     if(!aresetn)
+//         out_wstrb='b0;
+//     else if(out_wvalid)
+//         out_wstrb=4'b1111;    
+// end
+assign out_wstrb=out_wvalid?{{28{1'b0}},{4{1'b1}}}:'b0; 
 //<<<
 
 

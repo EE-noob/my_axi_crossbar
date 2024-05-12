@@ -74,10 +74,14 @@ parameter CAM_ADDR_WIDTH = 4  ;
 //para<<<
 //vari>>>
 integer  err_count;
+integer  test_status;
 logic [1:0]  wr_req_id;
 logic [1:0]  rd_req_id;
 integer  wr_rsp_success_cnt;
 integer  rd_rsp_success_cnt;
+logic    mst0_narrow;
+logic    mst1_narrow;
+logic    mst2_narrow;
 //<<<
 //Ports>>>
 logic  aclk;
@@ -580,6 +584,7 @@ axi_mst_driver # (
     .out_wid(mst0_wid),
     .out_wdata(mst0_wdata),
     .out_wstrb(mst0_wstrb),
+    .narrow(mst0_narrow),
     .out_rready(mst0_rready),
     .out_bready(mst0_bready)
   );
@@ -611,6 +616,7 @@ axi_mst_driver # (
     .out_wid(mst1_wid),
     .out_wdata(mst1_wdata),
     .out_wstrb(mst1_wstrb),
+    .narrow(mst1_narrow),
     .out_rready(mst1_rready),
     .out_bready(mst1_bready)
   );
@@ -642,6 +648,7 @@ axi_mst_driver # (
     .out_wid(mst2_wid),
     .out_wdata(mst2_wdata),
     .out_wstrb(mst2_wstrb),
+    .narrow(mst2_narrow),
     .out_rready(mst2_rready),
     .out_bready(mst2_bready)
   );
@@ -782,6 +789,7 @@ case (mst_id)
         mst0_awvalid='b0;
         mst0_awlock=2'b10;//默认赋值
         mst0_awid='b0;
+        mst0_narrow='b0;
     end 
     2'b10:
     begin
@@ -792,6 +800,7 @@ case (mst_id)
         mst1_awvalid='b0;
         mst1_awlock=2'b10;//默认赋值
         mst1_awid='b0;
+        mst1_narrow='b0;
     end 
     2'b11:
     begin
@@ -802,6 +811,7 @@ case (mst_id)
         mst2_awvalid='b0;
         mst2_awlock=2'b10;//默认赋值
         mst2_awid='b0;
+        mst2_narrow='b0;
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -969,6 +979,82 @@ end
 endtask
 //<<<
 
+//test case>>>
+task axi_init();
+begin
+  aclk=0;
+    aresetn=1;
+    srst=0;
+    aw_req_clr(`MST0);
+    aw_req_clr(`MST1);
+    aw_req_clr(`MST2);
+
+    ar_req_clr(`MST0);
+    ar_req_clr(`MST1);
+    ar_req_clr(`MST2);
+    //@(negedge aclk);
+
+    @(negedge aclk);
+    aresetn =0 ; //复位
+    @(negedge aclk);
+    aresetn =1 ; //置位
+    @(negedge aclk);
+
+end
+endtask
+
+task mst0_or();
+begin
+  wr_req_id=0;
+    rd_req_id=0;
+
+    repeat(testnum)begin
+      aw_INCR_req_random(`MST0,`SLV0,wr_req_id);
+      wait(mst0_awvalid && mst0_awready);
+      @(negedge aclk);
+      wr_req_id+=1;
+    end
+
+     aw_req_clr(`MST0);
+     
+     repeat(testnum)begin
+      ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+      wait(mst0_arvalid && mst0_arready);
+      @(negedge aclk);
+      rd_req_id+=1;
+    end
+
+     ar_req_clr(`MST0);
+end
+endtask
+
+task mst0_narrow_or();
+begin
+  mst0_narrow=1;
+  wr_req_id=0;
+    rd_req_id=0;
+
+    repeat(testnum)begin
+      aw_INCR_req_random(`MST0,`SLV0,wr_req_id);
+      wait(mst0_awvalid && mst0_awready);
+      @(negedge aclk);
+      wr_req_id+=1;
+    end
+
+     aw_req_clr(`MST0);
+     
+     repeat(testnum)begin
+      ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+      wait(mst0_arvalid && mst0_arready);
+      @(negedge aclk);
+      rd_req_id+=1;
+    end
+
+     ar_req_clr(`MST0);
+end
+endtask
+//<<<
+
 //dump、timeout、finish>>>
 //fsdb
 initial
@@ -986,7 +1072,8 @@ end
 
 initial begin
     #(1e6*clk_period);
-    $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
+    //$display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
+    $display ("all test case task done!!!!! at time %t", $time);
     $finish;
   end
 
@@ -1019,47 +1106,25 @@ initial begin
   //always>>>
 always #(clk_period/2)  aclk = ~ aclk ;
 
-//tc: or_wr>>>
+//main>>>
 
 //send req
 initial begin
-    aclk=0;
-    aresetn=1;
-    srst=0;
-    aw_req_clr(`MST0);
-    aw_req_clr(`MST1);
-    aw_req_clr(`MST2);
+    test_status=0;
+    axi_init();
+    
+    test_status=1;
+    mst0_or();
+    $display("outstanding test finish!!!");
+    repeat(100) @(posedge aclk);
 
-    ar_req_clr(`MST0);
-    ar_req_clr(`MST1);
-    ar_req_clr(`MST2);
-    //@(negedge aclk);
+    test_status=2;
+    mst0_narrow_or();
+    
+    
 
-    @(negedge aclk);
-    aresetn =0 ; //复位
-    @(negedge aclk);
-    aresetn =1 ; //置位
-    @(negedge aclk);
-    wr_req_id=0;
-    rd_req_id=0;
 
-    repeat(testnum)begin
-      aw_INCR_req_random(`MST0,`SLV0,wr_req_id);
-      wait(mst0_awvalid && mst0_awready);
-      @(negedge aclk);
-      wr_req_id+=1;
-    end
 
-     aw_req_clr(`MST0);
-     
-     repeat(testnum)begin
-      ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
-      wait(mst0_arvalid && mst0_arready);
-      @(negedge aclk);
-      rd_req_id+=1;
-    end
-
-     ar_req_clr(`MST0);
 end
 
 //rcv rsp

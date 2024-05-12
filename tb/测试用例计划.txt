@@ -1,5 +1,11 @@
 outstanding
 窄带传输
+三种brust
+
+256拍的burst传输
+4k边界处理
+mistroute
+
 out of order  
 interleaving
-三种brust
+
