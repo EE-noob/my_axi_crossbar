@@ -4,7 +4,7 @@ module tb_top();
 
 //localparam >>>
 
-localparam clk_period=5 ;
+localparam clk_period=20 ;
 localparam testnum =4 ;
 //localpara half_clk_period=2.5 ;
 //<<<
@@ -789,7 +789,7 @@ case (mst_id)
         mst0_awvalid='b0;
         mst0_awlock=2'b10;//默认赋值
         mst0_awid='b0;
-        mst0_narrow='b0;
+        
     end 
     2'b10:
     begin
@@ -800,7 +800,7 @@ case (mst_id)
         mst1_awvalid='b0;
         mst1_awlock=2'b10;//默认赋值
         mst1_awid='b0;
-        mst1_narrow='b0;
+       
     end 
     2'b11:
     begin
@@ -811,7 +811,7 @@ case (mst_id)
         mst2_awvalid='b0;
         mst2_awlock=2'b10;//默认赋值
         mst2_awid='b0;
-        mst2_narrow='b0;
+       
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -977,6 +977,68 @@ case (mst_id)
 endcase
 end
 endtask
+
+task aw_req(
+    input [1:0] mst_id,
+    input [1:0] slv_id,
+    input [1:0] req_id,
+    input [1:0] awburst,
+    input [AXI_ADDR_W    -1:0]awaddr;
+);  
+
+begin
+
+case (slv_id)
+2'b01: 
+begin
+    awaddr=$urandom_range(`SLV0_START_ADDR,`SLV0_END_ADDR); 
+end 
+2'b10: 
+begin
+    awaddr=$urandom_range(`SLV1_START_ADDR,`SLV1_END_ADDR); 
+end 
+2'b11:
+    awaddr=$urandom_range(`SLV2_START_ADDR,`SLV2_END_ADDR); 
+default: $display("error!!! 未知从机代码");
+endcase
+
+case (mst_id)
+    2'b01: 
+    begin
+        mst0_awaddr=awaddr;
+        mst0_awlen=$urandom_range(0,MST0_OSTDREQ_SIZE-1);
+        mst0_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst0_awburst=`INCR;
+        mst0_awvalid=1'b1;
+        mst0_awid={2'b00,req_id};
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen);
+    end 
+    2'b10:
+    begin
+        mst1_awaddr=awaddr;
+        mst1_awlen=$urandom_range(0,MST1_OSTDREQ_SIZE-1);
+        mst1_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst1_awburst=`INCR;
+        mst1_awvalid=1'b1;
+        mst1_awid={2'b00,req_id};
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen);
+    end 
+    2'b11:
+    begin
+        mst2_awaddr=awaddr;
+        mst2_awlen=$urandom_range(0,MST2_OSTDREQ_SIZE-1);
+        mst2_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst2_awburst=`INCR;
+        mst2_awvalid=1'b1;
+        mst2_awid={2'b00,req_id};
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen);
+    end 
+    default: $display("error!!! 主机掩码不能为零!");
+endcase
+end
+endtask
+
+
 //<<<
 
 //test case>>>
@@ -992,6 +1054,10 @@ begin
     ar_req_clr(`MST0);
     ar_req_clr(`MST1);
     ar_req_clr(`MST2);
+
+    mst0_narrow='b0;
+    mst1_narrow='b0;
+    mst2_narrow='b0;
     //@(negedge aclk);
 
     @(negedge aclk);
