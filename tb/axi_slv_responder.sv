@@ -120,7 +120,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __req_remain_cnt
         req_remain_cnt<=req_remain_cnt;
     else if(in_arvalid && out_arready)
         req_remain_cnt<=req_remain_cnt+1;
-    else if(out_rlast)
+    else if(out_rlast && out_rvalid && in_ready)
         req_remain_cnt<=req_remain_cnt-1; 
 end
 
