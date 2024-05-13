@@ -148,7 +148,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __bresp_rd_ptr
 always_ff @( posedge aclk or negedge aresetn) begin : __bresp_wr_ptr
     if(!aresetn)
         bresp_wr_ptr <= 'b0;
-    else if(in_wlast)
+    else if(in_wlast && out_rvalid && in_rready)
         bresp_wr_ptr <= bresp_wr_ptr+1;
     end
 always_ff @( posedge aclk or negedge aresetn) begin : __bresp_ram

@@ -143,7 +143,7 @@ always_ff @( posedge aclk or negedge aresetn) begin : __wlast_prev
 always_ff @( posedge aclk or negedge aresetn) begin : __awlen_rd_ptr
     if(!aresetn)
         awlen_rd_ptr <= 'b0;
-    else if(out_wlast)
+    else if(out_wlast && out_wvalid && in_wready)
         awlen_rd_ptr <= awlen_rd_ptr+1;
     end
 
