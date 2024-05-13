@@ -66,15 +66,15 @@ module axi_mst_driver #(
 //counter 
     logic [2**4-1:0]                    wdata_cnt;//fixme!!!!!!
     logic [$clog2(MST_OSTDREQ_NUM)+1-1:0]req_remain_cnt;
-    logic [$clog2(MST_OSTDREQ_NUM)-1:0] awlen_rd_ptr;
-    logic [$clog2(MST_OSTDREQ_NUM)-1:0] awlen_wr_ptr;
+    logic [$clog2(256)-1:0] awlen_rd_ptr;
+    logic [$clog2(256)-1:0] awlen_wr_ptr;
     logic [$clog2(MST_OSTDREQ_NUM)-1:0] awid_rd_ptr;
     logic [$clog2(MST_OSTDREQ_NUM)-1:0] awid_wr_ptr;
 
     
 
 //reg
-    logic [4          - 1 : 0] awlen_now;
+    logic [256          - 1 : 0] awlen_now;
     logic [4          - 1 : 0] awid_now;
     logic   out_wlast_prev;
     logic   out_wvalid_prev;
@@ -84,7 +84,7 @@ module axi_mst_driver #(
 
 //distributed ram
 
-    logic  [4-1:0]awlen_ram[MST_OSTDREQ_NUM-1:0];
+    logic  [256 -1:0]awlen_ram[MST_OSTDREQ_NUM-1:0];
     logic  [4-1:0]awid_ram[MST_OSTDREQ_NUM-1:0];
     //<<<
 
