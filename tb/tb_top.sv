@@ -900,7 +900,7 @@ case (mst_id)
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
         mst0_awid={2'b00,req_id};
-        $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen_real);
     end 
     2'b10:
     begin
@@ -959,7 +959,7 @@ case (mst_id)
         mst0_arburst=`INCR;
         mst0_arvalid=1'b1;
         mst0_arid={2'b00,req_id};
-        $display("read from addr 0x%h,len=0d%d", araddr,mst0_arlen);
+        $display("read from addr 0x%h,len=0d%d", araddr,mst0_arlen_real);
     end 
     2'b10:
     begin
@@ -969,7 +969,7 @@ case (mst_id)
         mst1_arburst=`INCR;
         mst1_arvalid=1'b1;
         mst1_arid={2'b00,req_id};
-        $display("read from addr 0x%h,len=0d%d", araddr,mst1_arlen);
+        $display("read from addr 0x%h,len=0d%d", araddr,mst1_arlen_real);
     end 
     2'b11:
     begin
@@ -979,7 +979,7 @@ case (mst_id)
         mst2_arburst=`INCR;
         mst2_arvalid=1'b1;
         mst2_arid={2'b00,req_id};
-        $display("read from addr 0x%h,len=0d%d", araddr,mst2_arlen);
+        $display("read from addr 0x%h,len=0d%d", araddr,mst2_arlen_real);
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -999,7 +999,7 @@ case (mst_id)
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
         mst0_awid={2'b00,req_id};
-        $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst0_awlen_real);
     end 
     2'b10:
     begin
@@ -1196,11 +1196,19 @@ initial begin
     
     test_status=1;
     mst0_or();
-    $display("outstanding test finish!!!");
+    $display("\n outstanding test finish!!! \n");
     repeat(100) @(posedge aclk);
 
     test_status=2;
     mst0_narrow_or();
+    $display("\n narrow test finish!!! \n");
+    repeat(100) @(posedge aclk);
+
+    test_status=3;
+    mst0_256_burst();
+    $display("\n 256 length burst test finish!!! \n");
+    repeat(100) @(posedge aclk);
+
     
     
 
