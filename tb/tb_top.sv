@@ -1353,41 +1353,43 @@ initial begin
     
     test_status=1;
     mst0_or();
-    $display("\n outstanding test finish!!! \n");
+    $display("\n *******outstanding test finish!!!******* \n");
     repeat(100) @(posedge aclk);
 
     test_status=2;
     mst0_narrow_or();
-    $display("\n narrow test finish!!! \n");
+    $display("\n *******narrow test finish!!!******* \n");
     repeat(100) @(posedge aclk);
 
     test_status=3;
     mst0_256_burst();
-    $display("\n 256 length burst test finish!!! \n");
+    $display("\n *******256 length burst test finish!!!******* \n");
     repeat(500) @(posedge aclk);
 
     test_status=4;
     mst0_fixed_burst();
     mst0_wrap_burst();
-    $display("\n fixed and wrap burst test finish!!! \n");
+    $display("\n *******fixed and wrap burst test finish!!!******* \n");
     repeat(100) @(posedge aclk);
 
     test_status=5;
     multi2multi();
-    $display("\n multi2multi burst test finish!!! \n");
+    $display("\n *******multi2multi burst test finish!!!******* \n");
     repeat(100) @(posedge aclk);
 
     test_status=6;
     mst0_4kBound_burst();
-    $display("\n 4k Bound test finish!!! \n");
+    $display("\n *******4k Bound test finish!!!******* \n");
     repeat(100) @(posedge aclk);
 
     test_status=7;
     mst0_mistroute();
-    $display("\n mistroute test finish!!! \n");
+    $display("\n *******mistroute test finish!!!******* \n");
     repeat(100) @(posedge aclk);
 
-    $display ("all test case task done!!!!! at time %t", $time);
+    $display("****************************************************************");
+    $display ("*******all test case task done!!!!! at time %t*******", $time);
+    $display("****************************************************************");
     $finish;
 
 
