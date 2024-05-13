@@ -583,7 +583,7 @@ axi_mst_driver # (
     .srst(srst),
     .in_awvalid(mst0_awvalid),
     .in_awready(mst0_awready),
-    .in_awlen(mst0_awlen),
+    .in_awlen(mst0_awlen_real),
     .in_awid(mst0_awid),
     
     .out_wvalid(mst0_wvalid),
