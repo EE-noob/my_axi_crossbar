@@ -114,7 +114,7 @@ end
 always_ff @( posedge aclk or negedge aresetn) begin : __wdata_cnt
     if(!aresetn)
         wdata_cnt<=0;
-    else if(out_wlast out_rvalid && in_rready)
+    else if(out_wlast && out_wvalid && in_wready)
         wdata_cnt<=0;
     else if(out_wvalid && in_wready)
         wdata_cnt<=wdata_cnt+1;
