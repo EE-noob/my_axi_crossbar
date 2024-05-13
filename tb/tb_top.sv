@@ -82,6 +82,14 @@ integer  rd_rsp_success_cnt;
 logic    mst0_narrow;
 logic    mst1_narrow;
 logic    mst2_narrow;
+
+logic [8-1 :0] mst0_awlen_real;
+logic [8-1 :0] mst1_awlen_real;
+logic [8-1 :0] mst2_awlen_real;
+
+logic [8-1 :0] mst0_arlen_real;
+logic [8-1 :0] mst1_arlen_real;
+logic [8-1 :0] mst2_arlen_real;
 //<<<
 //Ports>>>
 logic  aclk;
@@ -607,7 +615,7 @@ axi_mst_driver # (
     .srst(srst),
     .in_awvalid(mst1_awvalid),
     .in_awready(mst1_awready),
-    .in_awlen(mst1_awlen),
+    .in_awlen(mst1_awlen_real),
     .in_awid(mst1_awid),
   
     .out_wvalid(mst1_wvalid),
@@ -639,7 +647,7 @@ axi_mst_driver # (
     .srst(srst),
     .in_awvalid(mst2_awvalid),
     .in_awready(mst2_awready),
-    .in_awlen(mst2_awlen),
+    .in_awlen(mst2_awlen_real),
     .in_awid(mst2_awid),
 
     .out_wvalid(mst2_wvalid),
@@ -783,7 +791,7 @@ case (mst_id)
     2'b01: 
     begin
         mst0_awaddr='b0;
-        mst0_awlen='b0;
+        mst0_awlen_real='b0;
         mst0_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst0_awburst='b0;
         mst0_awvalid='b0;
@@ -794,7 +802,7 @@ case (mst_id)
     2'b10:
     begin
         mst1_awaddr='b0;
-        mst1_awlen='b0;
+        mst1_awlen_real='b0;
         mst1_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst1_awburst='b0;
         mst1_awvalid='b0;
@@ -805,7 +813,7 @@ case (mst_id)
     2'b11:
     begin
         mst2_awaddr='b0;
-        mst2_awlen='b0;
+        mst2_awlen_real='b0;
         mst2_awsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst2_awburst='b0;
         mst2_awvalid='b0;
@@ -828,7 +836,7 @@ case (mst_id)
     2'b01: 
     begin
         mst0_araddr='b0;
-        mst0_arlen='b0;
+        mst0_arlen_real='b0;
         mst0_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst0_arburst='b0;
         mst0_arvalid='b0;
@@ -838,7 +846,7 @@ case (mst_id)
     2'b10:
     begin
         mst1_araddr='b0;
-        mst1_arlen='b0;
+        mst1_arlen_real='b0;
         mst1_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst1_arburst='b0;
         mst1_arvalid='b0;
@@ -848,7 +856,7 @@ case (mst_id)
     2'b11:
     begin
         mst2_araddr='b0;
-        mst2_arlen='b0;
+        mst2_arlen_real='b0;
         mst2_arsize='b0;//!!!!fix me !!!!未考虑窄带传输
         mst2_arburst='b0;
         mst2_arvalid='b0;
@@ -887,8 +895,8 @@ case (mst_id)
     2'b01: 
     begin
         mst0_awaddr=awaddr;
-        mst0_awlen=$urandom_range(0,MST0_OSTDREQ_SIZE-1);
-        mst0_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst0_awlen_real=$urandom_range(0,MST0_OSTDREQ_SIZE-1);//fix me !!!! 有可能超出边界，范围也有问题
+        mst0_awsize=mst0_narrow ? 0 : 2;
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
         mst0_awid={2'b00,req_id};
@@ -897,22 +905,22 @@ case (mst_id)
     2'b10:
     begin
         mst1_awaddr=awaddr;
-        mst1_awlen=$urandom_range(0,MST1_OSTDREQ_SIZE-1);
-        mst1_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst1_awlen_real=$urandom_range(0,MST1_OSTDREQ_SIZE-1);
+        mst1_awsize=mst1_narrow ? 0 : 2;
         mst1_awburst=`INCR;
         mst1_awvalid=1'b1;
         mst1_awid={2'b00,req_id};
-        $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen_real);
     end 
     2'b11:
     begin
         mst2_awaddr=awaddr;
-        mst2_awlen=$urandom_range(0,MST2_OSTDREQ_SIZE-1);
-        mst2_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst2_awlen_real=$urandom_range(0,MST2_OSTDREQ_SIZE-1);
+        mst2_awsize=mst2_narrow ? 0 : 2;
         mst2_awburst=`INCR;
         mst2_awvalid=1'b1;
         mst2_awid={2'b00,req_id};
-        $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen_real);
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -946,7 +954,7 @@ case (mst_id)
     2'b01: 
     begin
         mst0_araddr=araddr;
-        mst0_arlen=$urandom_range(0,SLV0_OSTDREQ_SIZE-1);
+        mst0_arlen_real=$urandom_range(0,SLV0_OSTDREQ_SIZE-1);
         mst0_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst0_arburst=`INCR;
         mst0_arvalid=1'b1;
@@ -956,7 +964,7 @@ case (mst_id)
     2'b10:
     begin
         mst1_araddr=araddr;
-        mst1_arlen=$urandom_range(0,SLV1_OSTDREQ_SIZE-1);
+        mst1_arlen_real=$urandom_range(0,SLV1_OSTDREQ_SIZE-1);
         mst1_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst1_arburst=`INCR;
         mst1_arvalid=1'b1;
@@ -966,7 +974,7 @@ case (mst_id)
     2'b11:
     begin
         mst2_araddr=araddr;
-        mst2_arlen=$urandom_range(0,SLV2_OSTDREQ_SIZE-1);
+        mst2_arlen_real=$urandom_range(0,SLV2_OSTDREQ_SIZE-1);
         mst2_arsize=5;//!!!!fix me !!!!未考虑窄带传输
         mst2_arburst=`INCR;
         mst2_arvalid=1'b1;
@@ -978,36 +986,16 @@ endcase
 end
 endtask
 
-task aw_req(
-    input [1:0] mst_id,
-    input [1:0] slv_id,
-    input [1:0] req_id,
-    input [1:0] awburst,
-    input awlen
+task aw_req(    input [1:0] mst_id,    input [1:0] slv_id,    input [1:0] req_id,    input [1:0] awbust,    input [AXI_ADDR_W    -1:0]awaddr,       input [8-1:0] awlen
 );  
-
 begin
-  logic [AXI_ADDR_W    -1:0]awaddr;
-case (slv_id)
-2'b01: 
-begin
-    awaddr=$urandom_range(`SLV0_START_ADDR,`SLV0_END_ADDR); 
-end 
-2'b10: 
-begin
-    awaddr=$urandom_range(`SLV1_START_ADDR,`SLV1_END_ADDR); 
-end 
-2'b11:
-    awaddr=$urandom_range(`SLV2_START_ADDR,`SLV2_END_ADDR); 
-default: $display("error!!! 未知从机代码");
-endcase
-
+  
 case (mst_id)
     2'b01: 
     begin
         mst0_awaddr=awaddr;
-        mst0_awlen=$urandom_range(0,MST0_OSTDREQ_SIZE-1);
-        mst0_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst0_awlen_real=awlen;
+        mst0_awsize=mst0_narrow ? 0 : 2;
         mst0_awburst=`INCR;
         mst0_awvalid=1'b1;
         mst0_awid={2'b00,req_id};
@@ -1016,22 +1004,22 @@ case (mst_id)
     2'b10:
     begin
         mst1_awaddr=awaddr;
-        mst1_awlen=$urandom_range(0,MST1_OSTDREQ_SIZE-1);
-        mst1_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst1_awlen_real=awlen;
+        mst1_awsize=mst1_narrow ? 0 : 2;
         mst1_awburst=`INCR;
         mst1_awvalid=1'b1;
         mst1_awid={2'b00,req_id};
-        $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst1_awlen_real);
     end 
     2'b11:
     begin
         mst2_awaddr=awaddr;
-        mst2_awlen=$urandom_range(0,MST2_OSTDREQ_SIZE-1);
-        mst2_awsize=5;//!!!!fix me !!!!未考虑窄带传输
+        mst2_awlen_real=awlen;
+        mst2_awsize=mst2_narrow ? 0 : 2;
         mst2_awburst=`INCR;
         mst2_awvalid=1'b1;
         mst2_awid={2'b00,req_id};
-        $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen);
+        $display("write to addr 0x%h,len=0d%d", awaddr,mst2_awlen_real);
     end 
     default: $display("error!!! 主机掩码不能为零!");
 endcase
@@ -1119,6 +1107,32 @@ begin
      ar_req_clr(`MST0);
 end
 endtask
+
+task mst0_256_burst();
+begin
+  mst0_narrow=0;
+  wr_req_id=0;
+  rd_req_id=0;
+
+    
+      aw_req(`MST0,`SLV0,wr_req_id,`INCR,0,255);
+      wait(mst0_awvalid && mst0_awready);
+      @(negedge aclk);
+      wr_req_id+=1;
+    
+
+    //  aw_req_clr(`MST0);
+     
+    //  repeat(testnum)begin
+    //   ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+    //   wait(mst0_arvalid && mst0_arready);
+    //   @(negedge aclk);
+    //   rd_req_id+=1;
+    // end
+
+    //  ar_req_clr(`MST0);
+end
+endtask
 //<<<
 
 //dump、timeout、finish>>>
@@ -1171,7 +1185,8 @@ initial begin
 
   //always>>>
 always #(clk_period/2)  aclk = ~ aclk ;
-
+  //comb
+//assign mst0 mst0_awlen_real;
 //main>>>
 
 //send req
