@@ -1206,7 +1206,7 @@ initial begin
     test_status=3;
     mst0_256_burst();
     $display("\n 256 length burst test finish!!! \n");
-    repeat(500) @(posedge aclk);
+    repeat(5000) @(posedge aclk);
 
     
     $display ("all test case task done!!!!! at time %t", $time);
