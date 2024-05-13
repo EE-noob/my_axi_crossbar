@@ -1115,14 +1115,12 @@ begin
   rd_req_id=0;
 
     
-      aw_req(`MST0,`SLV0,wr_req_id,`INCR,0,255);
-      wait(mst0_awvalid && mst0_awready);
-      @(negedge aclk);
-      wr_req_id+=1;
-    
-
-    //  aw_req_clr(`MST0);
-     
+  aw_req(`MST0,`SLV0,wr_req_id,`INCR,0,255);
+  wait(mst0_awvalid && mst0_awready);
+  @(negedge aclk);
+  wr_req_id+=1;
+  aw_req_clr(`MST0);
+  
     //  repeat(testnum)begin
     //   ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
     //   wait(mst0_arvalid && mst0_arready);
@@ -1152,8 +1150,8 @@ end
 
 initial begin
     #(1e6*clk_period);
-    //$display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
-    $display ("all test case task done!!!!! at time %t", $time);
+    $display ("!!!!!!ERROR Timeout !!!!!!!! at time %t", $time);
+    
     $finish;
   end
 
@@ -1207,10 +1205,11 @@ initial begin
     test_status=3;
     mst0_256_burst();
     $display("\n 256 length burst test finish!!! \n");
-    repeat(100) @(posedge aclk);
+    repeat(500) @(posedge aclk);
 
     
-    
+    $display ("all test case task done!!!!! at time %t", $time);
+    $finish;
 
 
 
