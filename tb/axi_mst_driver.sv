@@ -219,7 +219,7 @@ always_comb begin : __out_wstrb
             out_wstrb[wdata_cnt%4]=1;
         end
         else 
-            out_wstrb='b1;
+            out_wstrb={4{1'b1}};
     end
     else
         out_wstrb='b0;
