@@ -127,7 +127,7 @@ end
 always_ff @( posedge aclk or negedge aresetn) begin : __rdata_cnt
     if(!aresetn)
         rdata_cnt<=0;
-    else if(out_rlast)
+    else if(out_rlast && out_rvalid && in_rready)
         rdata_cnt<=0;
     else if(out_rvalid && in_rready)
         rdata_cnt<=rdata_cnt+1;
