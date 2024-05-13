@@ -1132,6 +1132,164 @@ begin
     //  ar_req_clr(`MST0);
 end
 endtask
+
+task mst0_fixed_burst();
+begin
+  mst0_narrow=0;
+  wr_req_id=0;
+  rd_req_id=0;
+
+    
+  aw_req(`MST0,`SLV0,wr_req_id,`FIXED,8,10);
+  @(posedge aclk);
+  wait(mst0_awvalid && mst0_awready);
+  
+  wr_req_id+=1;
+  aw_req_clr(`MST0);
+  
+    //  repeat(testnum)begin
+    //   ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+    //   wait(mst0_arvalid && mst0_arready);
+    //   @(negedge aclk);
+    //   rd_req_id+=1;
+    // end
+
+    //  ar_req_clr(`MST0);
+end
+endtask
+
+task mst0_wrap_burst();
+begin
+  mst0_narrow=0;
+  wr_req_id=0;
+  rd_req_id=0;
+
+    
+  aw_req(`MST0,`SLV0,wr_req_id,`WRAP,4088,12);
+  @(posedge aclk);
+  wait(mst0_awvalid && mst0_awready);
+  
+  wr_req_id+=1;
+  aw_req_clr(`MST0);
+  
+    //  repeat(testnum)begin
+    //   ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+    //   wait(mst0_arvalid && mst0_arready);
+    //   @(negedge aclk);
+    //   rd_req_id+=1;
+    // end
+
+    //  ar_req_clr(`MST0);
+end
+endtask
+
+task multi2multi();
+begin
+  wr_req_id=0;
+    rd_req_id=0;
+
+fork
+  begin
+    aw_INCR_req_random(`MST0,`SLV0,0);
+    wait(mst0_awvalid && mst0_awready);
+    @(posedge aclk);;
+    aw_req_clr(`MST0);
+  end
+
+  begin
+    aw_INCR_req_random(`MST0,`SLV1,0);
+    wait(mst0_awvalid && mst0_awready);
+    @(posedge aclk);
+    aw_req_clr(`MST0);
+  end
+
+  begin
+    aw_INCR_req_random(`MST0,`SLV2,0);
+    wait(mst0_awvalid && mst0_awready);
+    @(posedge aclk);
+    aw_req_clr(`MST0);
+  end   
+     
+  begin
+    aw_INCR_req_random(`MST1,`SLV2,0);
+    wait(mst0_awvalid && mst0_awready);
+    @(posedge aclk);
+    aw_req_clr(`MST1);
+  end     
+ 
+  begin  
+      ar_INCR_req_random(`MST0,`SLV0,0);
+      wait(mst0_arvalid && mst0_arready);
+      @(posedge aclk);
+     ar_req_clr(`MST0);
+  end
+
+  begin  
+    ar_INCR_req_random(`MST0,`SLV1,0);
+    wait(mst0_arvalid && mst0_arready);
+    @(posedge aclk);
+   ar_req_clr(`MST0);
+end
+
+begin  
+  ar_INCR_req_random(`MST0,`SLV2,0);
+  wait(mst0_arvalid && mst0_arready);
+  @(posedge aclk);
+ ar_req_clr(`MST0);
+end
+join
+end
+endtask
+
+task mst0_4kBound_burst();
+begin
+  mst0_narrow=0;
+  wr_req_id=0;
+  rd_req_id=0;
+
+    
+  aw_req(`MST0,`SLV0,wr_req_id,`INCR,4088,12);
+  @(posedge aclk);
+  wait(mst0_awvalid && mst0_awready);
+  
+  wr_req_id+=1;
+  aw_req_clr(`MST0);
+  
+    //  repeat(testnum)begin
+    //   ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+    //   wait(mst0_arvalid && mst0_arready);
+    //   @(negedge aclk);
+    //   rd_req_id+=1;
+    // end
+
+    //  ar_req_clr(`MST0);
+end
+endtask
+
+task mst0_mistroute();
+begin
+  mst0_narrow=0;
+  wr_req_id=0;
+  rd_req_id=0;
+
+    
+  aw_req(`MST0,2'b11,wr_req_id,`INCR,16383+32,8);
+  @(posedge aclk);
+  wait(mst0_awvalid && mst0_awready);
+  
+  wr_req_id+=1;
+  aw_req_clr(`MST0);
+  
+    //  repeat(testnum)begin
+    //   ar_INCR_req_random(`MST0,`SLV0,rd_req_id);
+    //   wait(mst0_arvalid && mst0_arready);
+    //   @(negedge aclk);
+    //   rd_req_id+=1;
+    // end
+
+    //  ar_req_clr(`MST0);
+end
+endtask
 //<<<
 
 //dump、timeout、finish>>>
@@ -1206,9 +1364,29 @@ initial begin
     test_status=3;
     mst0_256_burst();
     $display("\n 256 length burst test finish!!! \n");
-    repeat(5000) @(posedge aclk);
+    repeat(500) @(posedge aclk);
 
-    
+    test_status=4;
+    mst0_fixed_burst();
+    mst0_wrap_burst();
+    $display("\n fixed and wrap burst test finish!!! \n");
+    repeat(100) @(posedge aclk);
+
+    test_status=5;
+    multi2multi();
+    $display("\n multi2multi burst test finish!!! \n");
+    repeat(100) @(posedge aclk);
+
+    test_status=6;
+    mst0_4kBound_burst();
+    $display("\n 4k Bound test finish!!! \n");
+    repeat(100) @(posedge aclk);
+
+    test_status=7;
+    mst0_mistroute();
+    $display("\n mistroute test finish!!! \n");
+    repeat(100) @(posedge aclk);
+
     $display ("all test case task done!!!!! at time %t", $time);
     $finish;
 

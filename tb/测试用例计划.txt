@@ -1,8 +1,8 @@
 outstanding
 窄带传输
+256拍的incr burst传输
 三种brust
-
-256拍的burst传输
+多对多
 4k边界处理
 mistroute
 
