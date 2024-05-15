@@ -1197,14 +1197,14 @@ fork
   end
 
   begin
-    aw_INCR_req_random(`MST0,`SLV1,0);
+    aw_INCR_req_random(`MST0,`SLV1,1);
     wait(mst0_awvalid && mst0_awready);
     @(posedge aclk);
     aw_req_clr(`MST0);
   end
 
   begin
-    aw_INCR_req_random(`MST0,`SLV2,0);
+    aw_INCR_req_random(`MST0,`SLV2,2);
     wait(mst0_awvalid && mst0_awready);
     @(posedge aclk);
     aw_req_clr(`MST0);
@@ -1225,14 +1225,14 @@ fork
   end
 
   begin  
-    ar_INCR_req_random(`MST0,`SLV1,0);
+    ar_INCR_req_random(`MST0,`SLV1,1);
     wait(mst0_arvalid && mst0_arready);
     @(posedge aclk);
    ar_req_clr(`MST0);
 end
 
 begin  
-  ar_INCR_req_random(`MST0,`SLV2,0);
+  ar_INCR_req_random(`MST0,`SLV2,2);
   wait(mst0_arvalid && mst0_arready);
   @(posedge aclk);
  ar_req_clr(`MST0);
